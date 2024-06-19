@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-// Connexion à la base de données
 $host = 'localhost';
 $db   = 'boutique';
 $user = 'root';

@@ -1,13 +1,11 @@
 $(document).ready(function() {
-    // Chargement initial des produits
     loadProducts();
 
-    // Fonction pour charger les produits depuis la base de données
     function loadProducts() {
         $.ajax({
-            url: 'GetBoutique.php', // L'url doit correspondre à votre script PHP pour charger les produits
+            url: 'GetBoutique.php',
             method: 'GET',
-            dataType: 'json', // Indique que la réponse doit être traitée comme du JSON
+            dataType: 'json',
             success: function(response) {
                 if (response.error) {
                     console.error('Erreur: ' + response.error);
