@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique</title>
+    <title>Panier</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="Boutique.css">
+    <link rel="stylesheet" href="Panier.css">
 </head>
 <body>
     <div class="body_items">
@@ -55,7 +55,7 @@
                     <div class="link_border"></div>
                 </div>
                 <div class="nav_cart_box">
-                    <a href="../Panier/Panier.html" class="shopping_cart_link">
+                    <a href="#" class="shopping_cart_link">
                         <i class="bx bx-cart"></i>
                     </a>
                 </div>
@@ -90,42 +90,82 @@
             </div>
         </nav>
         <div class="main">
-            <div class="left_col">
-                <div class="shoe_title">
-                    <p>Nike</p>
-                </div>
-                <div class="line">
-                    <hr>
-                </div>
-                <div class="shoe_description">
-                    <p>Nike est la meilleure marque de vêtements</p>
-                </div>
-                <div class="products-grid" id="products-container">
-                   
-                </div>
-            </div>
-            <div class="right_col">
-                <img src="images/1.png" class="featured_img" alt="">
-                <div class="shopping_cart_btn">
-                    <a href="../Panier/Panier.html" class="shopping_cart_link">
-                        <i class="bx bx-cart"></i>
-                    </a>
+            <div class="cart">
+                <h2>Votre Panier</h2>
+                <div class="shop-item-container" id="cart-items-container">
+                    <!-- Les produits du panier seront affichés ici dynamiquement -->
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="Boutique.js" defer></script>
     <script>
         function myMenuFunction() {
-            var i = document.getElementById("navDropdownMenu");
-            if (i.className === "nav_dropdown_menu") {
-                i.className += " responsive";
+            var navDropdownMenu = document.getElementById("navDropdownMenu");
+            if (navDropdownMenu.className === "nav_dropdown_menu") {
+                navDropdownMenu.className += " responsive";
             } else {
-                i.className = "nav_dropdown_menu";
+                navDropdownMenu.className = "nav_dropdown_menu";
             }
         }
+
+        $(document).ready(function() {
+            loadCartItems();
+
+            function loadCartItems() {
+                $.ajax({
+                    url: 'GetCartItems.php', 
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var cartHtml = '';
+                        if (response.length > 0) {
+                            $.each(response, function(index, product) {
+                                cartHtml += '<div class="shop-item-container">';
+                                cartHtml += '<div class="shoe-img-box">';
+                                cartHtml += '<img src="' + product.image + '" class="shoe-img">';
+                                cartHtml += '<div class="cart-item-info">';
+                                cartHtml += '<h3>' + product.name + '</h3>';
+                                cartHtml += '<p>' + product.price + '€</p>';
+                                cartHtml += '</div>';
+                                cartHtml += '</div>';
+                                cartHtml += '<div class="cart-item-actions">';
+                                cartHtml += '<button onclick="removeFromCart(' + product.id + ')" class="cart-item-remove">Supprimer</button>';
+                                cartHtml += '</div>';
+                                cartHtml += '</div>';
+                            });
+                        } else {
+                            cartHtml = '<p>Votre panier est vide.</p>';
+                        }
+                        $('#cart-items-container').html(cartHtml);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur lors du chargement du panier :', error);
+                    }
+                });
+            }
+
+            function removeFromCart(productId) {
+                $.ajax({
+                    url: 'RemoveFromCart.php', 
+                    method: 'POST',
+                    data: { productId: productId },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Produit supprimé du panier avec succès !');
+                            loadCartItems(); 
+                        } else {
+                            alert('Erreur lors de la suppression du produit du panier : ' + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur lors de la suppression du produit du panier :', error);
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
