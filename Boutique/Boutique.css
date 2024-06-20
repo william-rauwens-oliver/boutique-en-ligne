@@ -174,7 +174,7 @@ ul li {
 }
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 .shop_item_container {
@@ -248,7 +248,7 @@ ul li {
     }
 } */
 .shopping_cart_btn {
-    position: absolute;
+    position: fixed;
     right: 90px;
     bottom: 50px;
 }
