@@ -7,9 +7,9 @@
 }
 
 :root {
-  --linear-grad: linear-gradient(to right, #c03535,  #ff4b4b);
-  --grad-clr1: #c03535;
-  --grad-clr2: #ff4b4b;
+  --linear-grad: linear-gradient(to right,  #4a4948, #b6b5b5);
+  --grad-clr1: #4a4948  ;
+  --grad-clr2: #b6b5b5;
 }
 
 /* :root {
@@ -38,7 +38,7 @@
 
 body {
   height: 100vh; 
-  background: #948F8C;
+  background: #efe4e4;
   display: grid;
   place-content: center; 
   font-family: 'Poppins', sans-serif;
@@ -310,7 +310,7 @@ btnScaled {
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: linear-gradient(to bottom, #c03535, #ff4b4b);
+  background: linear-gradient(to bottom, #4a4948, #b6b5b5);
   bottom: 50%;
   right: 50%;
   transform: translate(-40%, 38%);
@@ -326,3 +326,30 @@ btnScaled {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* Styles for the login link */
+.login_link {
+  margin-right: auto; /* Pushes the login link to the far left */
+  display: flex;
+  align-items: center;
+}
+
+.login_link .link {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.login_link .link_border {
+  width: 0;
+  height: 2px;
+  background-color: #333;
+  transition: width 0.3s;
+}
+
+.login_link:hover .link_border {
+  width: 100%;
+}
+
+/* Other styles remain unchanged */

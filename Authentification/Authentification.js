@@ -10,4 +10,3 @@ overlayBtn.addEventListener('click', () => {
     overlayBtn.classList.add('btnScaled');
   });
 });
-

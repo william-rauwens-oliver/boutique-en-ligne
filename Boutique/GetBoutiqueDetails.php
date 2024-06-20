@@ -20,7 +20,6 @@ try {
     exit;
 }
 
-// Récupération des détails du produit
 $productId = $_GET['id'] ?? null;
 
 if (!$productId) {

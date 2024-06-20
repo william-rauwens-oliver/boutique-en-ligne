@@ -20,7 +20,6 @@ try {
     exit;
 }
 
-// Filtrage par catégorie
 $category = $_GET['category'] ?? 'all';
 $query = 'SELECT * FROM products';
 $params = [];
