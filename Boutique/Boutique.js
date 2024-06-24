@@ -1,31 +1,28 @@
-// Définissez la fonction addToCart en dehors de $(document).ready()
-function addToCart(productId) {
-    $.ajax({
-        url: 'AddToCart.php',
-        method: 'POST',
-        data: { productId: productId },
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert('Produit ajouté au panier avec succès !');
-            } else {
-                alert('Erreur lors de l\'ajout au panier : ' + response.error);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Erreur lors de l\'ajout au panier : ' + error);
-        }
-    });
-}
-
-// Assurez-vous que le code à l'intérieur de $(document).ready() reste tel quel
 $(document).ready(function() {
-    loadProducts();
+    // Fonction pour obtenir le nombre d'articles dans le panier
+    function getCartCount() {
+        $.ajax({
+            url: 'GetCartCount.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#cart-count').text(response.count);
+            },
+            error: function(error) {
+                console.error('Erreur lors de la récupération du nombre d\'articles dans le panier:', error);
+            }
+        });
+    }
 
-    function loadProducts() {
+    // Appel de la fonction lors du chargement de la page
+    getCartCount();
+
+    // Fonction pour charger les produits par catégorie
+    function loadProducts(category) {
         $.ajax({
             url: 'GetBoutique.php',
             method: 'GET',
+            data: { category: category },
             dataType: 'json',
             success: function(response) {
                 if (response.error) {
@@ -54,4 +51,35 @@ $(document).ready(function() {
             }
         });
     }
+
+    // Charger tous les produits au départ
+    loadProducts('all');
+
+    // Gestion du clic sur les liens de navigation pour filtrer les produits
+    $('.nav_menu .link, .nav_dropdown_menu .link').click(function(e) {
+        e.preventDefault();
+        var category = $(this).data('category');
+        loadProducts(category);
+    });
 });
+
+// Définissez la fonction addToCart en dehors de $(document).ready()
+function addToCart(productId) {
+    $.ajax({
+        url: 'AddToCart.php',
+        method: 'POST',
+        data: { productId: productId },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert('Produit ajouté au panier avec succès !');
+                getCartCount(); // Mettre à jour le compteur du panier après l'ajout
+            } else {
+                alert('Erreur lors de l\'ajout au panier : ' + response.error);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Erreur lors de l\'ajout au panier : ' + error);
+        }
+    });
+}

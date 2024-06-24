@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.product-form, .product-list {
+    margin: 20px 0;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-form form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-form form label {
+    width: 100%;
+    margin: 10px 0 5px;
+}
+
+.product-form form input, .product-form form button {
+    width: 48%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+}
+
+.product-form form button {
+    width: 100%;
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.product-form form button:hover {
+    background: #555;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #f4f4f4;
+}
+
+.actions button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.actions .edit-btn {
+    background: #f0ad4e;
+    color: #fff;
+}
+
+.actions .delete-btn {
+    background: #d9534f;
+    color: #fff;
+}
+
+.actions .edit-btn:hover {
+    background: #ec971f;
+}
+
+.actions .delete-btn:hover {
+    background: #c9302c;
+}

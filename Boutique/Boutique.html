@@ -31,19 +31,19 @@
                 <div class="nav_menu">
                     <ul>
                         <li>
-                            <a href="#" class="link">Accueil</a>
+                            <a href="#" class="link" data-category="all">Accueil</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="#" class="link">Chaussures</a>
+                            <a href="#" class="link" data-category="chaussures">Chaussures</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="#" class="link">Vêtements</a>
+                            <a href="#" class="link" data-category="vetements">Vêtements</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="#" class="link">Sport</a>
+                            <a href="#" class="link" data-category="sport">Sport</a>
                             <div class="link_border"></div>
                         </li>
                     </ul>
@@ -57,6 +57,7 @@
                 <div class="nav_cart_box">
                     <a href="../Panier/Panier.html" class="shopping_cart_link">
                         <i class="bx bx-cart"></i>
+                        <span id="cart-count">0</span> <!-- Nombre d'articles dans le panier -->
                     </a>
                 </div>
                 <div class="dropdown">
@@ -68,19 +69,19 @@
                         <div class="nav_dropdown_menu" id="navDropdownMenu">
                            <ul>
                              <li>
-                                 <a href="#" class="link">HOME</a>
+                                 <a href="#" class="link" data-category="all">HOME</a>
                                  <div class="link_border"></div>
                              </li>
                              <li>
-                                 <a href="#" class="link">KIDS</a>
+                                 <a href="#" class="link" data-category="kids">KIDS</a>
                                  <div class="link_border"></div>
                              </li>
                              <li>
-                                 <a href="#" class="link">MEN</a>
+                                 <a href="#" class="link" data-category="men">MEN</a>
                                  <div class="link_border"></div>
                              </li>
                              <li>
-                                 <a href="#" class="link">WOMEN</a>
+                                 <a href="#" class="link" data-category="women">WOMEN</a>
                                  <div class="link_border"></div>
                              </li>
                            </ul>
