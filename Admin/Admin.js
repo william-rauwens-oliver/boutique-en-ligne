@@ -8,9 +8,9 @@ $(document).ready(function() {
 
         let productId = $('#product-id').val();
         let name = $('#name').val();
+        let description = $('#description').val();
         let price = $('#price').val();
         let category = $('#category').val();
-        let stock = $('#stock').val();
         let image = $('#image').val();
 
         if (productId) {
@@ -21,9 +21,9 @@ $(document).ready(function() {
                 data: {
                     id: productId,
                     name: name,
+                    description: description,
                     price: price,
                     category: category,
-                    stock: stock,
                     image: image
                 },
                 success: function(response) {
@@ -44,9 +44,9 @@ $(document).ready(function() {
                 method: 'POST',
                 data: {
                     name: name,
+                    description: description,
                     price: price,
                     category: category,
-                    stock: stock,
                     image: image
                 },
                 success: function(response) {
@@ -73,9 +73,9 @@ $(document).ready(function() {
                     productsHtml += '<tr>';
                     productsHtml += '<td>' + product.id + '</td>';
                     productsHtml += '<td>' + product.name + '</td>';
+                    productsHtml += '<td>' + product.description + '</td>';
                     productsHtml += '<td>' + product.price + '€</td>';
                     productsHtml += '<td>' + product.category + '</td>';
-                    productsHtml += '<td>' + product.stock + '</td>';
                     productsHtml += '<td><img src="' + product.image + '" alt="' + product.name + '" style="width:50px;height:50px;"></td>';
                     productsHtml += '<td class="actions">';
                     productsHtml += '<button class="edit-btn" data-id="' + product.id + '">Modifier</button>';
@@ -105,17 +105,17 @@ $(document).ready(function() {
     // Modifier un produit
     function editProduct(productId) {
         $.ajax({
-            url: 'getProducts.php',
+            url: 'getProduct.php', // Modifié pour obtenir un produit spécifique
             method: 'GET',
             data: { id: productId },
             dataType: 'json',
             success: function(response) {
-                let product = response[0];
+                let product = response;
                 $('#product-id').val(product.id);
                 $('#name').val(product.name);
+                $('#description').val(product.description);
                 $('#price').val(product.price);
                 $('#category').val(product.category);
-                $('#stock').val(product.stock);
                 $('#image').val(product.image);
                 $('#submit-button').text('Modifier le produit');
             },
