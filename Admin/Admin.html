@@ -8,12 +8,26 @@
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+    <div class="body_items">
+        <div class="item_1">
+            <img src="../Assets/BoutiqueIMG/6.png" alt="Nike Background">
+        </div>
+        <div class="item_2">
+            <img src="../Assets/BoutiqueIMG/logo.png" alt="Nike Logo">
+        </div>
+        <div class="just_do_it">
+            <p>Just
+               Do
+               It
+            </p>
+        </div>
+    </div>
     <div class="admin-container">
         <h1>Tableau de bord Administrateur</h1>
         <div class="product-form">
-            <h2>Ajouter/Modifier un produit</h2>
+            <h2>Ajouter / Modifier un produit</h2>
             <form id="product-form">
-                <input type="hidden" id="product-id">
+                <input type="hidden" id="product-id" name="id">
                 <label for="name">Nom du produit</label>
                 <input type="text" id="name" name="name" required>
                 <label for="description">Description</label>
@@ -25,7 +39,7 @@
                 <label for="image">Image (URL)</label>
                 <input type="text" id="image" name="image" required>
                 <button type="submit" id="submit-button">Ajouter le produit</button>
-            </form>
+            </form>            
         </div>
         <div class="product-list">
             <h2>Liste des produits</h2>

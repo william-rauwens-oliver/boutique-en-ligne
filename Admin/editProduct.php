@@ -14,12 +14,12 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupération des données envoyées par le formulaire
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $image = $_POST['image'];
-    $category = $_POST['category'];
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    $name = isset($_POST['name']) ? $_POST['name'] : null;
+    $description = isset($_POST['description']) ? $_POST['description'] : null;
+    $price = isset($_POST['price']) ? $_POST['price'] : null;
+    $image = isset($_POST['image']) ? $_POST['image'] : null;
+    $category = isset($_POST['category']) ? $_POST['category'] : null;
 
     // Mise à jour du produit dans la base de données
     $sql = "UPDATE products SET name = :name, description = :description, price = :price, image = :image, category = :category WHERE id = :id";

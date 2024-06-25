@@ -117,7 +117,7 @@ ul li {
     z-index: 20;
 }
 .just_do_it p {
-    position: absolute;
+    position: fixed;
     top: 50%;
     right: 100px;
     transform: translate(-50% -50%);

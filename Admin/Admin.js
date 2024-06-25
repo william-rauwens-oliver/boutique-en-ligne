@@ -103,27 +103,36 @@ $(document).ready(function() {
     }
 
     // Modifier un produit
-    function editProduct(productId) {
-        $.ajax({
-            url: 'getProduct.php', // Modifié pour obtenir un produit spécifique
-            method: 'GET',
-            data: { id: productId },
-            dataType: 'json',
-            success: function(response) {
-                let product = response;
-                $('#product-id').val(product.id);
-                $('#name').val(product.name);
-                $('#description').val(product.description);
-                $('#price').val(product.price);
-                $('#category').val(product.category);
-                $('#image').val(product.image);
-                $('#submit-button').text('Modifier le produit');
-            },
-            error: function(error) {
-                console.error('Erreur lors de la récupération du produit:', error);
+// Modifier un produit
+function editProduct(productId) {
+    $.ajax({
+        url: 'editProduct.php', // Assurez-vous que le chemin est correct par rapport à votre structure de fichiers
+        method: 'POST',
+        data: {
+            id: productId,
+            name: $('#name').val(),
+            description: $('#description').val(),
+            price: $('#price').val(),
+            category: $('#category').val(),
+            image: $('#image').val()
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert('Produit modifié avec succès');
+                loadProducts(); // Recharger la liste des produits après modification
+                $('#product-form')[0].reset();
+                $('#product-id').val('');
+                $('#submit-button').text('Ajouter le produit');
+            } else {
+                alert('Erreur lors de la modification du produit: ' + response.error);
             }
-        });
-    }
+        },
+        error: function(error) {
+            console.error('Erreur lors de la modification du produit:', error);
+        }
+    });
+}
 
     // Supprimer un produit
     function deleteProduct(productId) {
