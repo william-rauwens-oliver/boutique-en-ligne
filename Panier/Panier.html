@@ -90,10 +90,32 @@
             </div>
         </nav>
         <div class="main">
-            <div class="cart">
-                <h2>Votre Panier</h2>
-                <div class="shop-item-container" id="cart-items-container">
-                    <!-- Les produits du panier seront affichés ici dynamiquement -->
+            <div class="cart-container">
+                <div class="cart">
+                    <h2>Votre Panier</h2>
+                    <div class="shop-item-container" id="cart-items-container">
+                        <!-- Les produits du panier seront affichés ici dynamiquement -->
+                    </div>
+                </div>
+                <div class="payment">
+                    <h2>Informations de Paiement</h2>
+                    <form id="payment-form">
+                        <div class="form-group">
+                            <label for="card-number">Numéro de Carte</label>
+                            <input type="text" id="card-number" name="card-number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-expiry">Date d'Expiration</label>
+                            <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/AA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvc">CVC</label>
+                            <input type="text" id="card-cvc" name="card-cvc" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Payer</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -146,7 +168,7 @@
                 });
             }
 
-            function removeFromCart(productId) {
+            window.removeFromCart = function(productId) {
                 $.ajax({
                     url: 'RemoveFromCart.php', 
                     method: 'POST',
@@ -165,6 +187,10 @@
                     }
                 });
             }
+
+            $('#validate-cart-button').click(function() {
+                window.location.href = 'Payment.html';
+            });
         });
     </script>
 </body>

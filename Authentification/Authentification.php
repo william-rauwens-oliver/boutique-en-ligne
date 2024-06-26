@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     if ($_POST['action'] == 'register') {
         $user_name = $_POST['username'];
-        $user_email = $_POST['email'];
+        $user_email = $_POST['email'];x@x@
         $user_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
         $sql = "INSERT INTO users (username, email, password) VALUES ('$user_name', '$user_email', '$user_password')";

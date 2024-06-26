@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="Payment.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="left_nav">
+                <div class="nav_logo">
+                    <img src="/Assets/BoutiqueIMG/logo.png" alt="">
+                </div>
+                <div class="nav_menu">
+                    <ul>
+                        <li>
+                            <a href="#" class="link">Accueil</a>
+                            <div class="link_border"></div>
+                        </li>
+                        <li>
+                            <a href="#" class="link">Chaussures</a>
+                            <div class="link_border"></div>
+                        </li>
+                        <li>
+                            <a href="#" class="link">Vêtements</a>
+                            <div class="link_border"></div>
+                        </li>
+                        <li>
+                            <a href="#" class="link">Sport</a>
+                            <div class="link_border"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="left_nav">
+                <div class="login_link">
+                    <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
+                    <div class="link_border"></div>
+                </div>
+                <div class="nav_cart_box">
+                    <a href="#" class="shopping_cart_link">
+                        <i class="bx bx-cart"></i>
+                    </a>
+                </div>
+                <div class="dropdown">
+                    <div class="menu_bars" onclick="myMenuFunction()">
+                        <div class="menu_bars_btn">
+                          <img src="../Assets/BoutiqueIMG/bar.png" class="bar_1">
+                          <img src="../Assets/BoutiqueIMG/bar.png" class="bar_2">
+                        </div>
+                        <div class="nav_dropdown_menu" id="navDropdownMenu">
+                           <ul>
+                             <li>
+                                 <a href="#" class="link">HOME</a>
+                                 <div class="link_border"></div>
+                             </li>
+                             <li>
+                                 <a href="#" class="link">KIDS</a>
+                                 <div class="link_border"></div>
+                             </li>
+                             <li>
+                                 <a href="#" class="link">MEN</a>
+                                 <div class="link_border"></div>
+                             </li>
+                             <li>
+                                 <a href="#" class="link">WOMEN</a>
+                                 <div class="link_border"></div>
+                             </li>
+                           </ul>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="main">
+            <div class="cart">
+                <h2>Votre Panier</h2>
+                <div class="shop-item-container" id="cart-items-container">
+                    <!-- Les produits du panier seront affichés ici dynamiquement -->
+                </div>
+            </div>
+            <div class="payment">
+                <h2>Effectuer le paiement</h2>
+                <form id="payment-form">
+                    <div id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                    <button id="submit">Payer</button>
+                    <div id="card-errors" role="alert"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            var stripe = Stripe('votre_clé_publique'); // Remplacez par votre clé publique Stripe
+            var elements = stripe.elements();
+            var card = elements.create('card');
+            card.mount('#card-element');
+
+            var form = document.getElementById('payment-form');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const { paymentMethod, error } = await stripe.createPaymentMethod('card', card, {
+                    billing_details: {
+                        name: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
+                        address: {
+                            line1: document.getElementById('address').value,
+                            city: document.getElementById('city').value,
+                        },
+                    },
+                });
+
+                if (error) {
+                    // Display error.message in your UI.
+                    document.getElementById('card-errors').textContent = error.message;
+                } else {
+                    // Send paymentMethod.id to your server.
+                    fetch('create_payment_intent.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            payment_method_id: paymentMethod.id,
+                            first_name: document.getElementById('first-name').value,
+                            last_name: document.getElementById('last-name').value,
+                            address: document.getElementById('address').value,
+                            city: document.getElementById('city').value,
+                        }),
+                    }).then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            document.getElementById('card-errors').textContent = data.error.message;
+                        } else {
+                            window.location.href = 'success.html';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
