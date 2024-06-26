@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+}
+header {
+    margin-bottom: 20px;
+}
+#search-results {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+}
+#search-results li {
+    cursor: pointer;
+}
