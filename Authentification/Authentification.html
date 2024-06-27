@@ -48,7 +48,7 @@
                 <h1>Se connecter</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social" onclick="googleSignIn()"><i class="fab fa-google"></i></a>
+                    <a href="" class="social" onclick="googleSignIn()"><i class="fab fa-google"></i></a>
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>ou utilisez votre compte</span>
@@ -142,27 +142,28 @@
     }
 
     function signInCallback(authResult) {
-        if (authResult['code']) {
-            fetch('google-auth.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'code=' + encodeURIComponent(authResult['code'])
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = "../Boutique/Boutique.html";
-                } else {
-                    alert('Erreur lors de l\'authentification avec Google.');
-                }
-            })
-            .catch(error => console.error('Erreur:', error));
-        } else {
-            console.error('Erreur lors de la récupération du code d\'autorisation Google.');
-        }
+    if (authResult['code']) {
+        fetch('google-auth.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'code=' + encodeURIComponent(authResult['code'])
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirection après une authentification réussie
+                window.location.href = "../Boutique/Boutique.html";
+            } else {
+                alert('Erreur lors de l\'authentification avec Google.');
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    } else {
+        console.error('Erreur lors de la récupération du code d\'autorisation Google.');
     }
+}
 
     function startGoogleAuth() {
         // Initialisation de l'authentification Google
