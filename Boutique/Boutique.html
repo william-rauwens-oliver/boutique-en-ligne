@@ -26,24 +26,30 @@
         <nav>
             <div class="left_nav">
                 <div class="nav_logo">
-                    <img src="/Assets/BoutiqueIMG/logo.png" alt="">
+                    <a href="/index.html"> <!-- Remplacez "/index.html" par l'URL de votre page d'accueil -->
+                        <img src="../Assets/BoutiqueIMG/logo.png" alt="Logo de votre boutique">
+                    </a>
                 </div>
                 <div class="nav_menu">
                     <ul>
                         <li>
-                            <a href="#" class="link" data-category="all">Accueil</a>
+                            <a href="#" class="link" data-category="all">Tous</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="#" class="link" data-category="chaussures">Chaussures</a>
+                            <a href="#" class="link" data-category="chaussure">Chaussures</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="#" class="link" data-category="vetements">Vêtements</a>
+                            <a href="#" class="link" data-category="Vêtement">Vêtements</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
                             <a href="#" class="link" data-category="sport">Sport</a>
+                            <div class="link_border"></div>
+                        </li>
+                        <li>
+                            <a href="../Panier/Panier.html" class="link">Mon Panier</a>
                             <div class="link_border"></div>
                         </li>
                     </ul>
@@ -53,12 +59,6 @@
                 <div class="login_link">
                     <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
                     <div class="link_border"></div>
-                </div>
-                <div class="nav_cart_box">
-                    <a href="../Panier/Panier.html" class="shopping_cart_link">
-                        <i class="bx bx-cart"></i>
-                        <span id="cart-count">0</span> <!-- Nombre d'articles dans le panier -->
-                    </a>
                 </div>
                 <div class="dropdown">
                     <div class="menu_bars" onclick="myMenuFunction()">
@@ -110,6 +110,7 @@
                 <div class="shopping_cart_btn">
                     <a href="../Panier/Panier.html" class="shopping_cart_link">
                         <i class="bx bx-cart"></i>
+                        <span id="cart-count">0</span> <!-- Nombre d'articles dans le panier -->
                     </a>
                 </div>
             </div>
