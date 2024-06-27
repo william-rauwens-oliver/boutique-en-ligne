@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="Authentification.css">
     <script src="Authentification.js" defer></script>
     <script src="Server.js"></script>
-
-    <!-- Ajouter le script Google OAuth -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="994112343166-ed7ptuk74kdqmhvfrgm1p7bv7i476vgb.apps.googleusercontent.com">
 </head>
@@ -145,7 +143,6 @@
 
     function signInCallback(authResult) {
         if (authResult['code']) {
-            // Envoyer le code d'autorisation au serveur pour échange
             fetch('google-auth.php', {
                 method: 'POST',
                 headers: {
@@ -171,7 +168,7 @@
         // Initialisation de l'authentification Google
         gapi.load('auth2', function() {
             auth2 = gapi.auth2.init({
-                client_id: 'VOTRE_CLIENT_ID.apps.googleusercontent.com'
+                client_id: '994112343166-ed7ptuk74kdqmhvfrgm1p7bv7i476vgb.apps.googleusercontent.com'
             });
         });
     }
