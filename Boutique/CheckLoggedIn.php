@@ -5,7 +5,7 @@ $response = array('logged_in' => false);
 
 if (isset($_SESSION['username'])) {
     $response['logged_in'] = true;
-    $response['email'] = $_SESSION['user_email']; // Modifier selon la clé de votre session email
+    $response['email'] = $_SESSION['user_email'];
 }
 
 header('Content-Type: application/json');
