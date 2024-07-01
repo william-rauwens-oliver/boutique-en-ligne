@@ -5,7 +5,7 @@ $CLIENT_ID = '994112343166-ed7ptuk74kdqmhvfrgm1p7bv7i476vgb.apps.googleuserconte
 $CLIENT_SECRET = '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';
 $redirect_uri = 'http://localhost:8888/Boutique-en-ligne/Authentification/google-auth.php';
 
-$code = $_POST['code']; // Récupérer le code d'autorisation depuis le front-end
+$code = $_POST['code'];
 
 $url = 'https://oauth2.googleapis.com/token';
 $data = array(
@@ -34,14 +34,13 @@ if ($response === false) {
 $token_data = json_decode($response, true);
 
 if (isset($token_data['access_token'])) {
-    // Authentification réussie, enregistrer les jetons d'accès
     $_SESSION['access_token'] = $token_data['access_token'];
     $_SESSION['refresh_token'] = $token_data['refresh_token'];
 
-    // Répondre au front-end avec succès
-    echo json_encode(array('success' => true));
+    header('Location: http://localhost:8888/Boutique-en-ligne/Boutique/Boutique.php');
+    exit(); 
 } else {
-    // Échec de l'authentification
-    echo json_encode(array('success' => false));
+    header('Location: http://localhost:8888/Boutique-en-ligne/page-erreur.php');
+    exit();
 }
 ?>

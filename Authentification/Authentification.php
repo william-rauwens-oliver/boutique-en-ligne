@@ -42,8 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['user_id'] = $row['id'];
 
-                header("Location: ../Boutique/Boutique.html");
-                exit();
+                echo "Connexion réussie";
             } else {
                 echo "Mot de passe incorrect. Veuillez réessayer.";
             }

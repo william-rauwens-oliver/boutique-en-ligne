@@ -8,8 +8,40 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="Panier.css">
 </head>
+<style>
+        .login_link {
+            position: relative;
+            display: inline-block;
+        }
+        .login_link .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .login_link .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .login_link .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .login_link:hover .dropdown-content {
+            display: block;
+        }
+    </style>s
 
-<body>
+<body>$
+    <?php
+    session_start();
+    $isLoggedIn = isset($_SESSION['username']);
+    $username = $isLoggedIn ? $_SESSION['username'] : '';
+    ?>
+
     <div class="body_items">
         <div class="item_1">
             <img src="../Assets/BoutiqueIMG/6.png" alt="">
@@ -35,19 +67,19 @@
                 <div class="nav_menu">
                     <ul>
                         <li>
-                            <a href="../Boutique/Boutique.html" class="link">Tous</a>
+                            <a href="../Boutique/Boutique.php" class="link">Tous</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="../Boutique/Boutique.html?category=chaussure" class="link">Chaussures</a>
+                            <a href="../Boutique/Boutique.php?category=chaussure" class="link">Chaussures</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="../Boutique/Boutique.html?category=vetement" class="link">Vêtements</a>
+                            <a href="../Boutique/Boutique.php?category=vetement" class="link">Vêtements</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="../Boutique/Boutique.html?category=sport" class="link">Sport</a>
+                            <a href="../Boutique/Boutique.php?category=sport" class="link">Sport</a>
                             <div class="link_border"></div>
                         </li>
                         <li>
@@ -55,13 +87,22 @@
                             <div class="link_border"></div>
                         </li>
                     </ul>
-                </div>                
+                </div>   
             </div>
-            <div class="left_nav">
+            <div class="right_nav">
                 <div class="login_link">
-                    <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
+                    <?php if ($isLoggedIn): ?>
+                        <a href="#" class="link"><?php echo htmlspecialchars($username); ?></a>
+                        <div class="dropdown-content">
+                            <a href="../Authentification/logout.php" class="link">Se déconnecter</a>
+                            <a href="../MesCommandes/MesCommandes.html" class="link">Mes commandes</a>
+                        </div>
+                    <?php else: ?>
+                        <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
+                    <?php endif; ?>
                     <div class="link_border"></div>
                 </div>
+
                 <div class="dropdown">
                     <div class="menu_bars" onclick="myMenuFunction()">
                         <div class="menu_bars_btn">

@@ -95,7 +95,7 @@
         .then(data => {
             console.log(data);
             if (data.includes("Inscription réussie")) {
-                window.location.href = "../Boutique/Boutique.html";
+                window.location.href = "../Boutique/Boutique.php";
             } else {
                 alert("Erreur lors de l'inscription. Veuillez réessayer.");
             }
@@ -117,7 +117,7 @@
             if (data.includes("Mot de passe incorrect") || data.includes("Aucun utilisateur trouvé")) {
                 alert(data);
             } else {
-                window.location.href = "../Boutique/Boutique.html";
+                window.location.href = "../Boutique/Boutique.php";
             }
         })
         .catch(error => console.error('Erreur:', error));
@@ -154,7 +154,7 @@
         .then(data => {
             if (data.success) {
                 // Redirection après une authentification réussie
-                window.location.href = "../Boutique/Boutique.html";
+                window.location.href = "../Boutique/Boutique.php";
             } else {
                 alert('Erreur lors de l\'authentification avec Google.');
             }
