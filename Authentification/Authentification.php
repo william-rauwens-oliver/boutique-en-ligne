@@ -14,11 +14,12 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     if ($_POST['action'] == 'register') {
+        $user_id = rand(0, 100); // Génère un ID utilisateur aléatoire entre 0 et 100
         $user_name = $_POST['username'];
         $user_email = $_POST['email']; 
         $user_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users (username, email, password) VALUES ('$user_name', '$user_email', '$user_password')";
+        $sql = "INSERT INTO users (users_id, username, email, password) VALUES ('$user_id', '$user_name', '$user_email', '$user_password')";
 
         if ($conn->query($sql) === TRUE) {
             echo "Inscription réussie";
@@ -40,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 
             if (password_verify($user_password, $hashed_password)) {
                 $_SESSION['username'] = $row['username'];
-                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['user_id'] = $row['users_id']; // Utilise users_id ici
 
                 echo "Connexion réussie";
             } else {

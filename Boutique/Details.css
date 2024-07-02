@@ -102,6 +102,67 @@ ul li {
     margin-right: 10px;
 }
 
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.left_col {
+    flex: 2; /* Prend tout l'espace disponible */
+    margin-right: 20px;
+}
+
+.right_col {
+    flex: 2; /* Prend deux fois l'espace du left_col */
+}
+
+.left_col img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.right_col {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+.right_col .title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.right_col .description {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.right_col .price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f44336;
+    margin-bottom: 10px;
+}
+
+.cart_btn {
+    font-weight: 600;
+    width: 200px;
+    height: 45px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    align-self: flex-start; /* Alignement du bouton à gauche */
+}
+
+
 /* Body Items */
 .item_1 img {
     position: fixed;
@@ -263,6 +324,133 @@ ul li {
     position: relative;
     height: 85vh;
 }
+/* Styles améliorés pour la boîte du produit */
+.product-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    max-width: 300px; /* Largeur maximale fixée */
+    overflow: hidden; /* Pour cacher le contenu dépassant */
+}
+
+.product-box:hover {
+    transform: translateY(-5px); /* Animation de léger décalage vers le haut au survol */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre légèrement renforcée */
+}
+
+.product-box img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-box:hover img {
+    transform: scale(1.1); /* Animation de zoom au survol */
+}
+
+.product-box .title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+
+.product-box .description {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: #666;
+    overflow: hidden; /* Pour cacher le texte dépassant */
+    text-overflow: ellipsis; /* Pour ajouter des points de suspension */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Nombre de lignes maximum */
+    -webkit-box-orient: vertical;
+}
+
+.product-box .price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f44336;
+    margin-top: auto;
+    align-self: flex-end; /* Alignement du prix à droite */
+}
+
+/* Styles pour la boîte autour du formulaire d'ajout de commentaire */
+.add-review-form-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Couleur de fond légère */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Styles pour le formulaire d'ajout de commentaire */
+.add-review-form {
+    width: 100%;
+    max-width: 600px; /* Largeur maximale du formulaire */
+    margin: 0 auto; /* Centrer le formulaire horizontalement */
+}
+
+.add-review-form h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.add-review-form input[type="text"],
+.add-review-form textarea,
+.add-review-form select,
+.add-review-form button {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Assure que le padding n'augmente pas la largeur */
+}
+
+.add-review-form input[type="text"]:focus,
+.add-review-form textarea:focus,
+.add-review-form select:focus {
+    outline: none;
+    border-color: #66afe9; /* Couleur de bordure lors du focus */
+}
+
+.add-review-form textarea {
+    resize: vertical; /* Permet à l'utilisateur de redimensionner la zone de texte verticalement */
+}
+
+.add-review-form select {
+    height: 46px; /* Hauteur des champs de sélection */
+}
+
+.add-review-form button {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.add-review-form button:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+}
+
 
 .featured_img {
     position: absolute;

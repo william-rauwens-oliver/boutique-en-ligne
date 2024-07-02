@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="Panier.css">
-</head>
-<style>
+    <style>
         .login_link {
             position: relative;
             display: inline-block;
@@ -33,9 +31,9 @@
         .login_link:hover .dropdown-content {
             display: block;
         }
-    </style>s
-
-<body>$
+    </style>
+</head>
+<body>
     <?php
     session_start();
     $isLoggedIn = isset($_SESSION['username']);
@@ -50,10 +48,7 @@
             <img src="../Assets/BoutiqueIMG/logo.png" alt="">
         </div>
         <div class="just_do_it">
-            <p>Just
-                Do
-                It
-            </p>
+            <p>Just Do It</p>
         </div>
     </div>
     <div class="container">
@@ -291,5 +286,4 @@
         });
     </script>
 </body>
-
 </html>

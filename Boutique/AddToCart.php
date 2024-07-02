@@ -5,6 +5,14 @@ session_start();
 // Vérifiez si l'ID du produit est reçu en POST
 if (isset($_POST['productId'])) {
     $productId = $_POST['productId'];
+    
+    // Vérifiez si l'utilisateur est connecté
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode(array('success' => false, 'error' => 'Utilisateur non connecté.'));
+        exit;
+    }
+
+    $userId = $_SESSION['user_id']; // Récupère l'ID utilisateur depuis la session
 
     // Connexion à la base de données (exemple avec MySQLi)
     $conn = new mysqli('localhost', 'root', 'root', 'boutique');
@@ -15,8 +23,8 @@ if (isset($_POST['productId'])) {
     }
 
     // Préparez la requête pour insérer dans la table panier
-    $stmt = $conn->prepare("INSERT INTO panier (product_id) VALUES (?)");
-    $stmt->bind_param("i", $productId);
+    $stmt = $conn->prepare("INSERT INTO panier (product_id, users_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $productId, $userId);
 
     // Exécutez la requête
     if ($stmt->execute()) {

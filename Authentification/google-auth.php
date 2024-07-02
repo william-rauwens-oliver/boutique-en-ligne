@@ -6,6 +6,7 @@ $CLIENT_SECRET = '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';
 $redirect_uri = 'http://localhost:8888/Boutique-en-ligne/Authentification/google-auth.php';
 
 $code = $_POST['code'];
+$redirect_url = $_POST['redirectUrl'];
 
 $url = 'https://oauth2.googleapis.com/token';
 $data = array(
@@ -37,7 +38,7 @@ if (isset($token_data['access_token'])) {
     $_SESSION['access_token'] = $token_data['access_token'];
     $_SESSION['refresh_token'] = $token_data['refresh_token'];
 
-    header('Location: http://localhost:8888/Boutique-en-ligne/Boutique/Boutique.php');
+    header('Location: ' . $redirect_url);
     exit(); 
 } else {
     header('Location: http://localhost:8888/Boutique-en-ligne/page-erreur.php');

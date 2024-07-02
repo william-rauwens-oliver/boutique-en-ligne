@@ -30,6 +30,7 @@ nav {
     gap: 50px;
 }
 
+
 .nav_logo {
     display: flex;
     align-items: center;
@@ -284,7 +285,7 @@ ul li {
 /* Styles pour la section de paiement */
 .payment {
     position: absolute;
-    top: 20px;
+    top: 60px;
     right: 20px;
     display: flex;
     flex-direction: column;
