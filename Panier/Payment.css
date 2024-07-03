@@ -269,29 +269,7 @@ ul li {
     animation: featuredImg 2s;
 }
 
-.payment {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 80px 0 0;
-}
 
-.payment h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.payment form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 3px 3px 8px #b3b3b3, -3px -3px 8px #ffffff;
-    background: #fff;
-}
 
 #card-element {
     width: 100%;

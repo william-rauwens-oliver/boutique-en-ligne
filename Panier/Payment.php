@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panier</title>
+    <title>Paiement</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="Panier.css">
+    <link rel="stylesheet" href="Payment.css">
     <style>
         .login_link {
             position: relative;
@@ -28,20 +28,42 @@
         .login_link .dropdown-content a:hover {
             background-color: #f1f1f1;
         }
-        /* Ajoutez vos styles CSS ici */
-        .cart-container {
-            display: flex;
-            justify-content: space-between;
+        .login_link:hover .dropdown-content {
+            display: block;
         }
-        .cart {
-            flex: 1;
+        .payment {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            right: 400px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        .total {
-            flex: 1;
-            text-align: right;
-            margin-top: 20px;
+        .payment h2 {
+            text-align: center;
+            margin-bottom: 20px;
         }
-        .total button {
+        .payment form {
+            display: grid;
+            gap: 10px;
+        }
+        .payment .form-group {
+            display: grid;
+            gap: 5px;
+        }
+        .payment label {
+            font-weight: bold;
+        }
+        .payment input[type="text"], .payment button {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .payment button {
             background-color: #424442;
             border: none;
             color: white;
@@ -53,8 +75,9 @@
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 4px;
+            width: auto;
         }
-        .total button:hover {
+        .payment button:hover {
             background-color: #767676;
         }
     </style>
@@ -155,17 +178,40 @@
             </div>
         </nav>
         <div class="main">
-            <div class="cart-container">
-                <div class="cart">
-                    <h2>Votre Panier</h2>
-                    <div class="shop-item-container" id="cart-items-container">
-                        <!-- Les produits du panier seront affichés ici dynamiquement -->
+            <div class="payment">
+                <h2>Informations de Paiement</h2>
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="card-number">Numéro de Carte</label>
+                        <input type="text" id="card-number" name="card-number" required>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="card-expiry">Date d'Expiration</label>
+                        <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/AA" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-cvc">CVC</label>
+                        <input type="text" id="card-cvc" name="card-cvc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-postal-code">Code Postal</label>
+                        <input type="text" id="shipping-postal-code" name="shipping-postal-code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-address">Adresse</label>
+                        <input type="text" id="shipping-address" name="shipping-address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-city">Ville</label>
+                        <input type="text" id="shipping-city" name="shipping-city" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Payer</button>
+                    </div>
+                </form>
                 <div class="total">
                     <h2>Total de la Commande</h2>
                     <p id="total-amount">0€</p>
-                    <button id="validate-cart-button">Passer à la commande</button>
                 </div>
             </div>
         </div>
@@ -253,8 +299,30 @@
                 });
             }
 
+            $('#payment-form').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: 'ProcessPayment.php',
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Paiement effectué avec succès !');
+                            // Rediriger l'utilisateur ou effectuer une autre action après le paiement
+                        } else {
+                            alert('Erreur lors du paiement : ' + response.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors du paiement :', error);
+                    }
+                });
+            });
+
             $('#validate-cart-button').click(function () {
-                window.location.href = 'Payment.php'; // Rediriger vers la page de paiement
+                window.location.href = 'Payment.html';
             });
         });
     </script>

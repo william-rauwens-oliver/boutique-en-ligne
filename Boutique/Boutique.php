@@ -55,7 +55,7 @@
         <nav>
             <div class="left_nav">
                 <div class="nav_logo">
-                    <a href="/index.html">
+                    <a href="../Accueil/Accueil.php">
                         <img src="../Assets/BoutiqueIMG/logo.png" alt="Logo de votre boutique">
                     </a>
                 </div>

@@ -45,12 +45,30 @@ class UsersGoogle
             $_SESSION['access_token'] = $tokenData['access_token'];
             $_SESSION['refresh_token'] = $tokenData['refresh_token'];
 
-            header('Location: ' . $redirectUrl);
-            exit();
+            // Récupérer les informations utilisateur
+            $userInfo = $this->getUserInfo($tokenData['access_token']);
+            if ($userInfo) {
+                $_SESSION['username'] = $userInfo['email'];  // Enregistrer l'email de l'utilisateur dans la session
+                header('Location: ' . $redirectUrl);
+                exit();
+            } else {
+                header('Location: http://localhost:8888/Boutique-en-ligne/page-erreur.php');
+                exit();
+            }
         } else {
             header('Location: http://localhost:8888/Boutique-en-ligne/page-erreur.php');
             exit();
         }
+    }
+
+    private function getUserInfo($accessToken)
+    {
+        $url = 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $accessToken;
+        $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
+        return json_decode($response, true);
     }
 }
 
@@ -58,7 +76,7 @@ class UsersGoogle
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code']) && isset($_POST['redirectUrl'])) {
     $usersGoogle = new UsersGoogle();
     $code = $_POST['code'];
-    $redirectUrl = $_POST['redirectUrl'];
+    $redirectUrl = 'http://localhost:8888/Boutique-en-ligne/Boutique/Boutique.php'; // Redirection vers la page boutique
     $usersGoogle->authenticate($code, $redirectUrl);
 }
 ?>
