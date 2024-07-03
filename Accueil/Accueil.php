@@ -9,8 +9,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="Accueil.css">
+    <style>
+        .login_link {
+            position: relative;
+            display: inline-block;
+        }
+        .login_link .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            right: 20px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .login_link .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .login_link .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .login_link:hover .dropdown-content {
+            display: block;
+        }
+    </style>
 </head>
 <body>
+    <?php
+        session_start();
+        $isLoggedIn = isset($_SESSION['username']);
+        $username = $isLoggedIn ? $_SESSION['username'] : '';
+        ?>
 
     <div class="body_items">
         <div class="item_1">
@@ -37,6 +68,18 @@
                 <i class="ri-search-line"></i>
                 <i class="ri-shopping-cart-2-line"></i>
                 <i class="ri-menu-line"></i>
+            <div class="login_link">
+                <?php if ($isLoggedIn): ?>
+                        <a href="#" class="link"><?php echo htmlspecialchars($username); ?></a>
+                        <div class="dropdown-content">
+                            <a href="../Authentification/logout.php" class="link">Se déconnecter</a>
+                            <a href="../MesCommandes/MesCommandes.html" class="link">Mes commandes</a>
+                        </div>
+                    <?php else: ?>
+                        <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
+                    <?php endif; ?>
+                    <div class="link_border"></div>
+                </div>
             </div>
         </div>
         <div class="content">
