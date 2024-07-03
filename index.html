@@ -1,37 +1,106 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique en ligne</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Online Store</title>
+    <link rel="stylesheet" href="aceuill.css">
+    <script defer src="aceuill.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-    <header class="bg-dark text-white p-3">
-        <div class="container">
-            <h1 class="display-4">Ma Boutique en ligne</h1>
-            <input type="text" id="search" class="form-control" placeholder="Rechercher des produits...">
-            <ul id="search-results" class="list-group"></ul>
+    <nav>
+        <div class="left_nav">
+            <div class="nav_logo">
+                <img src="logo.png" alt="Logo">
+            </div>
+            <div class="nav_menu">
+                <ul>
+                    <li><a href="#" class="link">Acceuil</a></li>
+                    <li><a href="#" class="link">Enfant</a></li>
+                    <li><a href="#" class="link">Homme</a></li>
+                    <li><a href="#" class="link">Femme</a></li>
+                    <li><div class="link_border"></div></li>
+                </ul>
+            </div>
         </div>
+        <div class="right_nav">
+            <div class="nav_cart_box">
+                <a href="#" class="shopping_cart_link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="menu_bars">
+                <div class="menu_bars_btn">
+                    <div class="bar_1"></div>
+                    <div class="bar_2"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="item_1"><img src="header1.jpg" alt="Image Fond 1"></div>
+        <div class="item_2"><img src="header2.jpg" alt="Image Fond 2"></div>
+        <div class="just_do_it"><p>JUST DO IT</p></div>
     </header>
-    <main class="container mt-4">
-        <section id="featured-products" class="mb-5">
-            <h2>Produits phares</h2>
-            <div class="row">
+
+    <main class="main">
+        <div class="left_col">
+            <div class="shoe_title">
+                <p>Des produits qui pourraient vous séduire.</p>
             </div>
-        </section>
-        <section id="latest-products">
-            <h2>Derniers produits</h2>
-            <div class="row">
+            <div class="line">
+                <hr>
             </div>
-        </section>
+            <div class="shoe_description">
+                <p>Une sélection aléatoire de produits pour vous faidre découvrir notre boutique.</p>
+            </div>
+            <div class="cart">
+                <button class="cart_btn">Acheter maintenant</button>
+                <p class="price">99,99€</p>
+            </div>
+        </div>
+        <div class="right_col">
+            <div class="featured_img">
+                <img src="featured.jpg" alt="Photo produit">
+            </div>
+        </div>
     </main>
-    <footer class="bg-dark text-white p-3 text-center">
-        &copy; 2024 Ma Boutique en ligne
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="js/autocomplete.js"></script>
-    <script src="js/main.js"></script>
+
+    <section class="shop_box">
+        <h2>Une sélection de produits</h2>
+        <div class="products-grid">
+            <div class="shop_item_container">
+                <div class="shoe_img_box">
+                    <img src="product1.jpg" alt="Produit 1" class="shoe_img">
+                </div>
+                <div class="shoe_name_price">
+                    <h3>Produit 1</h3>
+                    <div class="add_to_shop"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+            <div class="shop_item_container">
+                <div class="shoe_img_box">
+                    <img src="product2.jpg" alt="Produit 2" class="shoe_img">
+                </div>
+                <div class="shoe_name_price">
+                    <h3>Produit 2</h3>
+                    <div class="add_to_shop"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+            <div class="shop_item_container">
+                <div class="shoe_img_box">
+                    <img src="product3.jpg" alt="Produit 3" class="shoe_img">
+                </div>
+                <div class="shoe_name_price">
+                    <h3>Produit 3</h3>
+                    <div class="add_to_shop"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="shopping_cart_btn">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
 </body>
 </html>
