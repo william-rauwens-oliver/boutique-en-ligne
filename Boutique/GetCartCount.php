@@ -1,15 +1,30 @@
 <?php
-session_start();
+class CartHandler
+{
+    public function __construct()
+    {
+        session_start();
+    }
 
-// Vérifiez si la session de l'utilisateur contient des articles dans le panier
-if (isset($_SESSION['cart'])) {
-    $cart = $_SESSION['cart'];
-    $cartCount = count($cart);
-} else {
-    // Si le panier est vide ou n'existe pas
-    $cartCount = 0;
+    public function getCartCount()
+    {
+        if (isset($_SESSION['cart'])) {
+            $cart = $_SESSION['cart'];
+            return count($cart);
+        } else {
+            return 0;
+        }
+    }
+
+    public function respondWithCartCount()
+    {
+        $cartCount = $this->getCartCount();
+        header('Content-Type: application/json');
+        echo json_encode(['count' => $cartCount]);
+    }
 }
 
-// Retournez le nombre d'articles en format JSON
-echo json_encode(['count' => $cartCount]);
+// Utilisation de la classe
+$cartHandler = new CartHandler();
+$cartHandler->respondWithCartCount();
 ?>

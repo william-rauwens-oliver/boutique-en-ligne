@@ -1,50 +1,80 @@
 <?php
-// Récupérer l'ID du produit depuis l'URL
-$id = $_GET['id'] ?? null;
 
-if (!$id) {
-    // Gérer le cas où l'ID n'est pas fourni
-    echo 'ID de produit non spécifié.';
-    exit;
+class ProductDetailsHandler
+{
+    private $pdo;
+
+    public function __construct()
+    {
+        $host = 'localhost';
+        $db = 'boutique';
+        $user = 'root';
+        $pass = 'root';
+        $charset = 'utf8mb4';
+        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
+
+        try {
+            $this->pdo = new PDO($dsn, $user, $pass, $options);
+        } catch (PDOException $e) {
+            echo 'Erreur de connexion à la base de données: ' . $e->getMessage();
+            exit;
+        }
+    }
+
+    public function getProductDetails($id)
+    {
+        $query = 'SELECT * FROM products WHERE id = ?';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
+    public function getProductReviews($id)
+    {
+        $query_reviews = 'SELECT * FROM reviews WHERE product_id = ?';
+        $stmt_reviews = $this->pdo->prepare($query_reviews);
+        $stmt_reviews->execute([$id]);
+        return $stmt_reviews->fetchAll();
+    }
+
+    public function handleRequest()
+    {
+        // Récupérer l'ID du produit depuis l'URL
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            // Gérer le cas où l'ID n'est pas fourni
+            echo 'ID de produit non spécifié.';
+            exit;
+        }
+
+        // Récupérer les détails du produit
+        $product = $this->getProductDetails($id);
+
+        // Vérifier si le produit existe
+        if (!$product) {
+            echo 'Produit non trouvé.';
+            exit;
+        }
+
+        // Récupérer les avis sur ce produit
+        $reviews = $this->getProductReviews($id);
+
+        return [$product, $reviews];
+    }
 }
 
-// Connexion à la base de données
-$host = 'localhost';
-$db   = 'boutique';
-$user = 'root';
-$pass = 'root';
-$charset = 'utf8mb4';
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    echo 'Erreur de connexion à la base de données: ' . $e->getMessage();
-    exit;
-}
-
-// Préparer et exécuter la requête pour récupérer les détails du produit
-$query = 'SELECT * FROM products WHERE id = ?';
-$stmt = $pdo->prepare($query);
-$stmt->execute([$id]);
-$product = $stmt->fetch();
-
-// Vérifier si le produit existe
-if (!$product) {
-    echo 'Produit non trouvé.';
-    exit;
-}
-
-// Récupérer les avis sur ce produit depuis la base de données (si nécessaire)
-$query_reviews = 'SELECT * FROM reviews WHERE product_id = ?';
-$stmt_reviews = $pdo->prepare($query_reviews);
-$stmt_reviews->execute([$id]);
-$reviews = $stmt_reviews->fetchAll();
+// Utilisation de la classe
+$productHandler = new ProductDetailsHandler();
+list($product, $reviews) = $productHandler->handleRequest();
+session_start();
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -82,11 +112,6 @@ $reviews = $stmt_reviews->fetchAll();
     </style>
 </head>
 <body>
-<?php
-session_start();
-$isLoggedIn = isset($_SESSION['username']);
-$username = $isLoggedIn ? $_SESSION['username'] : '';
-?>
 
 <div class="body_items">
     <div class="item_1">
@@ -191,41 +216,41 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
                 <button class="cart_btn" onclick="addToCart(<?php echo $product['id']; ?>)">Ajouter au panier</button>
             </div>
             <div class="review-section">
-    <h3>Avis des utilisateurs</h3>
-    <?php if ($reviews && count($reviews) > 0): ?>
-        <ul class="reviews">
-            <?php foreach ($reviews as $review): ?>
-                <li>
-                    <strong><?php echo htmlspecialchars($review['user_name']); ?></strong>
-                    <div>Évaluation: <?php echo htmlspecialchars($review['rating']); ?>/5</div>
-                    <p><?php echo htmlspecialchars($review['comment']); ?></p>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>Aucun avis pour le moment.</p>
-    <?php endif; ?>
-</div>
+                <h3>Avis des utilisateurs</h3>
+                <?php if ($reviews && count($reviews) > 0): ?>
+                    <ul class="reviews">
+                        <?php foreach ($reviews as $review): ?>
+                            <li>
+                                <strong><?php echo htmlspecialchars($review['user_name']); ?></strong>
+                                <div>Évaluation: <?php echo htmlspecialchars($review['rating']); ?>/5</div>
+                                <p><?php echo htmlspecialchars($review['comment']); ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>Aucun avis pour le moment.</p>
+                <?php endif; ?>
+            </div>
 
-<!-- Boîte autour du formulaire pour ajouter un avis -->
-<div class="add-review-form-container">
-    <h3>Ajouter un avis</h3>
-    <div class="add-review-form">
-        <form action="add_review.php" method="POST">
-            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-            <input type="text" name="user_name" placeholder="Votre nom" required>
-            <textarea name="comment" placeholder="Votre avis" rows="4" required></textarea>
-            <select name="rating" required>
-                <option value="1">1 étoile</option>
-                <option value="2">2 étoiles</option>
-                <option value="3">3 étoiles</option>
-                <option value="4">4 étoiles</option>
-                <option value="5">5 étoiles</option>
-            </select>
-            <button type="submit">Ajouter un avis</button>
-        </form>
-    </div>
-</div>
+            <!-- Boîte autour du formulaire pour ajouter un avis -->
+            <div class="add-review-form-container">
+                <h3>Ajouter un avis</h3>
+                <div class="add-review-form">
+                    <form action="add_review.php" method="POST">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <input type="text" name="user_name" placeholder="Votre nom" required>
+                        <textarea name="comment" placeholder="Votre avis" rows="4" required></textarea>
+                        <select name="rating" required>
+                            <option value="1">1 étoile</option>
+                            <option value="2">2 étoiles</option>
+                            <option value="3">3 étoiles</option>
+                            <option value="4">4 étoiles</option>
+                            <option value="5">5 étoiles</option>
+                        </select>
+                        <button type="submit">Ajouter un avis</button>
+                    </form>
+                </div>
+            </div>
 
         </div>
     </div>
