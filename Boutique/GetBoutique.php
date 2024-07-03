@@ -1,29 +1,13 @@
 <?php
+require_once 'db.php';
 
 class ProductFetcher
 {
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $host = 'localhost';
-        $db = 'boutique';
-        $user = 'root';
-        $pass = 'root';
-        $charset = 'utf8mb4';
-        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-
-        try {
-            $this->pdo = new PDO($dsn, $user, $pass, $options);
-        } catch (PDOException $e) {
-            echo json_encode(['error' => 'Erreur de connexion à la base de données: ' . $e->getMessage()]);
-            exit;
-        }
+        $this->pdo = $pdo;
     }
 
     public function fetchProducts($category = 'all')
@@ -50,7 +34,7 @@ class ProductFetcher
 // Utilisation de la classe
 header('Content-Type: application/json');
 $category = $_GET['category'] ?? 'all';
-$productFetcher = new ProductFetcher();
+$productFetcher = new ProductFetcher($pdo); // Utilisation de la connexion PDO depuis db.php
 $products = $productFetcher->fetchProducts($category);
 echo json_encode($products);
 ?>

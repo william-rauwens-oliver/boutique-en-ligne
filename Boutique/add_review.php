@@ -1,29 +1,13 @@
 <?php
+require_once 'db.php';
 
 class ReviewHandler
 {
-    private $dbHost = 'localhost';
-    private $dbName = 'boutique';
-    private $dbUser = 'root';
-    private $dbPass = 'root';
-    private $charset = 'utf8mb4';
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $dsn = "mysql:host={$this->dbHost};dbname={$this->dbName};charset={$this->charset}";
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-
-        try {
-            $this->pdo = new PDO($dsn, $this->dbUser, $this->dbPass, $options);
-        } catch (PDOException $e) {
-            echo 'Erreur de connexion à la base de données: ' . $e->getMessage();
-            exit;
-        }
+        $this->pdo = $pdo;
     }
 
     public function ajouterAvis($product_id, $user_name, $comment, $rating)
@@ -53,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rating = $_POST['rating'];
 
     // Créer une instance de ReviewHandler et ajouter l'avis
-    $reviewHandler = new ReviewHandler();
+    $reviewHandler = new ReviewHandler($pdo);
     $reviewHandler->ajouterAvis($product_id, $user_name, $comment, $rating);
 } else {
     // Redirection vers la page d'accueil si le formulaire n'a pas été soumis directement
-    $reviewHandler = new ReviewHandler();
+    $reviewHandler = new ReviewHandler($pdo);
     $reviewHandler->redirectionAccueil();
 }
 ?>

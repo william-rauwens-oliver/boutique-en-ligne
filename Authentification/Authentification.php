@@ -1,26 +1,14 @@
 <?php
+require_once 'db.php';
+
 class Users
 {
-    private $conn;
+    private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
         session_start();
-        $this->connectDB();
-    }
-
-    private function connectDB()
-    {
-        $servername = "localhost";
-        $username = "root";
-        $password = "root";
-        $dbname = "boutique";
-
-        $this->conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($this->conn->connect_error) {
-            die("La connexion a échoué : " . $this->conn->connect_error);
-        }
+        $this->pdo = $pdo;
     }
 
     public function register($user_name, $user_email, $user_password)
@@ -28,27 +16,30 @@ class Users
         $user_id = rand(0, 100); // Génère un ID utilisateur aléatoire entre 0 et 100
         $hashed_password = password_hash($user_password, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users (users_id, username, email, password) VALUES ('$user_id', '$user_name', '$user_email', '$hashed_password')";
+        $sql = "INSERT INTO users (users_id, username, email, password) VALUES (?, ?, ?, ?)";
+        $stmt = $this->pdo->prepare($sql);
 
-        if ($this->conn->query($sql) === TRUE) {
+        try {
+            $stmt->execute([$user_id, $user_name, $user_email, $hashed_password]);
             return "Inscription réussie";
-        } else {
-            return "Erreur lors de l'inscription : " . $this->conn->error;
+        } catch (PDOException $e) {
+            return "Erreur lors de l'inscription : " . $e->getMessage();
         }
     }
 
     public function login($user_email, $user_password)
     {
-        $sql = "SELECT * FROM users WHERE email='$user_email'";
-        $result = $this->conn->query($sql);
+        $sql = "SELECT * FROM users WHERE email=?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$user_email]);
+        $user = $stmt->fetch();
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $hashed_password = $row['password'];
+        if ($user) {
+            $hashed_password = $user['password'];
 
             if (password_verify($user_password, $hashed_password)) {
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['user_id'] = $row['users_id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['user_id'] = $user['users_id'];
 
                 return "Connexion réussie";
             } else {
@@ -58,16 +49,11 @@ class Users
             return "Aucun utilisateur trouvé avec cet email. Veuillez vous inscrire.";
         }
     }
-
-    public function __destruct()
-    {
-        $this->conn->close();
-    }
 }
 
 // Utilisation de la classe
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
-    $users = new Users();
+    $users = new Users($pdo);
 
     if ($_POST['action'] == 'register') {
         $user_name = $_POST['username'];

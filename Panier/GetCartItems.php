@@ -1,23 +1,19 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-session_start();
+require_once 'db.php';
 
 class Panier
 {
-    private $conn;
+    private $pdo;
 
-    public function __construct($host, $username, $password, $dbname)
+    public function __construct(PDO $pdo)
     {
-        $this->conn = new mysqli($host, $username, $password, $dbname);
-        if ($this->conn->connect_error) {
-            die("Erreur de connexion à la base de données : " . $this->conn->connect_error);
-        }
+        $this->pdo = $pdo;
     }
 
     public function getCartItems()
     {
+        session_start();
+
         if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
             $cartItems = array();
             $productIds = implode(",", $_SESSION['cart']);
@@ -28,10 +24,10 @@ class Panier
                       WHERE c.product_id IN ($productIds)
                       ORDER BY FIELD(c.product_id, $productIds)";
             
-            $result = $this->conn->query($query);
+            $stmt = $this->pdo->query($query);
 
-            if ($result) {
-                while ($row = $result->fetch_assoc()) {
+            if ($stmt) {
+                while ($row = $stmt->fetch()) {
                     $product = array(
                         'id' => $row['id'],
                         'name' => $row['name'],
@@ -40,9 +36,8 @@ class Panier
                     );
                     $cartItems[] = $product;
                 }
-                $result->free();
             } else {
-                die('Erreur lors de l\'exécution de la requête SQL : ' . $this->conn->error);
+                die('Erreur lors de l\'exécution de la requête SQL : ' . $this->pdo->errorInfo()[2]);
             }
 
             return $cartItems;
@@ -50,17 +45,11 @@ class Panier
             return array();
         }
     }
-
-    public function closeConnection()
-    {
-        $this->conn->close();
-    }
 }
 
-// Utilisation de la classe Panier
-$panier = new Panier('localhost', 'root', 'root', 'boutique');
+// Utilisation de la classe Panier avec PDO
+$panier = new Panier($pdo);
 $cartItems = $panier->getCartItems();
-$panier->closeConnection();
 
 header('Content-Type: application/json');
 echo json_encode($cartItems);

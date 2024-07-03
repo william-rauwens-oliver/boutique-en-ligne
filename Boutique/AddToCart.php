@@ -1,35 +1,18 @@
 <?php
+require_once 'db.php';
 
 class AddPanier
 {
-    private $dbHost = 'localhost';
-    private $dbUser = 'root';
-    private $dbPass = 'root';
-    private $dbName = 'boutique';
-    private $conn;
+    private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
         // Démarrez la session si ce n'est pas déjà fait
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
 
-        // Connexion à la base de données
-        $this->conn = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
-
-        // Vérifiez la connexion
-        if ($this->conn->connect_error) {
-            die("Erreur de connexion à la base de données : " . $this->conn->connect_error);
-        }
-    }
-
-    public function __destruct()
-    {
-        // Fermez la connexion à la base de données
-        if ($this->conn) {
-            $this->conn->close();
-        }
+        $this->pdo = $pdo;
     }
 
     public function ajouterProduit($productId)
@@ -42,15 +25,15 @@ class AddPanier
         $userId = $_SESSION['user_id']; // Récupère l'ID utilisateur depuis la session
 
         // Préparez la requête pour insérer dans la table panier
-        $stmt = $this->conn->prepare("INSERT INTO panier (product_id, users_id) VALUES (?, ?)");
+        $stmt = $this->pdo->prepare("INSERT INTO panier (product_id, users_id) VALUES (?, ?)");
         if (!$stmt) {
             return json_encode(array('success' => false, 'error' => 'Erreur de préparation de la requête.'));
         }
 
-        $stmt->bind_param("ii", $productId, $userId);
+        $stmt->execute([$productId, $userId]);
 
-        // Exécutez la requête
-        if ($stmt->execute()) {
+        // Vérifiez si l'insertion a réussi
+        if ($stmt->rowCount() > 0) {
             // Ajoutez le produit à la session de panier
             if (!isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = array();
@@ -65,7 +48,7 @@ class AddPanier
         }
 
         // Fermez la déclaration
-        $stmt->close();
+        $stmt->closeCursor();
 
         return json_encode($response);
     }
@@ -74,7 +57,7 @@ class AddPanier
 // Vérifiez si l'ID du produit est reçu en POST
 if (isset($_POST['productId'])) {
     $productId = $_POST['productId'];
-    $panier = new AddPanier();
+    $panier = new AddPanier($pdo);
     echo $panier->ajouterProduit($productId);
 } else {
     // Répondez avec erreur si l'ID du produit n'est pas reçu

@@ -1,77 +1,10 @@
 <?php
+require_once 'ProductDetailsHandler.php';
 
-class ProductDetailsHandler
-{
-    private $pdo;
-
-    public function __construct()
-    {
-        $host = 'localhost';
-        $db = 'boutique';
-        $user = 'root';
-        $pass = 'root';
-        $charset = 'utf8mb4';
-        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-
-        try {
-            $this->pdo = new PDO($dsn, $user, $pass, $options);
-        } catch (PDOException $e) {
-            echo 'Erreur de connexion à la base de données: ' . $e->getMessage();
-            exit;
-        }
-    }
-
-    public function getProductDetails($id)
-    {
-        $query = 'SELECT * FROM products WHERE id = ?';
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute([$id]);
-        return $stmt->fetch();
-    }
-
-    public function getProductReviews($id)
-    {
-        $query_reviews = 'SELECT * FROM reviews WHERE product_id = ?';
-        $stmt_reviews = $this->pdo->prepare($query_reviews);
-        $stmt_reviews->execute([$id]);
-        return $stmt_reviews->fetchAll();
-    }
-
-    public function handleRequest()
-    {
-        // Récupérer l'ID du produit depuis l'URL
-        $id = $_GET['id'] ?? null;
-
-        if (!$id) {
-            // Gérer le cas où l'ID n'est pas fourni
-            echo 'ID de produit non spécifié.';
-            exit;
-        }
-
-        // Récupérer les détails du produit
-        $product = $this->getProductDetails($id);
-
-        // Vérifier si le produit existe
-        if (!$product) {
-            echo 'Produit non trouvé.';
-            exit;
-        }
-
-        // Récupérer les avis sur ce produit
-        $reviews = $this->getProductReviews($id);
-
-        return [$product, $reviews];
-    }
-}
-
-// Utilisation de la classe
-$productHandler = new ProductDetailsHandler();
+// Utilisation de la connexion PDO depuis db.php
+$productHandler = new ProductDetailsHandler($pdo);
 list($product, $reviews) = $productHandler->handleRequest();
+
 session_start();
 $isLoggedIn = isset($_SESSION['username']);
 $username = $isLoggedIn ? $_SESSION['username'] : '';
