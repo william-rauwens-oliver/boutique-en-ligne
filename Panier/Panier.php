@@ -104,7 +104,7 @@
                             <div class="link_border"></div>
                         </li>
                         <li>
-                            <a href="../Panier/Panier.html" class="link">Mon Panier</a>
+                            <a href="../Panier/Panier.php" class="link">Mon Panier</a>
                             <div class="link_border"></div>
                         </li>
                     </ul>
@@ -116,7 +116,6 @@
                         <a href="#" class="link"><?php echo htmlspecialchars($username); ?></a>
                         <div class="dropdown-content">
                             <a href="../Authentification/logout.php" class="link">Se déconnecter</a>
-                            <a href="../MesCommandes/MesCommandes.html" class="link">Mes commandes</a>
                         </div>
                     <?php else: ?>
                         <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
@@ -159,7 +158,7 @@
                 <div class="cart">
                     <h2>Votre Panier</h2>
                     <div class="shop-item-container" id="cart-items-container">
-                        <!-- Les produits du panier seront affichés ici dynamiquement -->
+                        
                     </div>
                 </div>
                 <div class="total">
@@ -254,7 +253,7 @@
             }
 
             $('#validate-cart-button').click(function () {
-                window.location.href = 'Payment.php'; // Rediriger vers la page de paiement
+                window.location.href = 'Payment.php';
             });
         });
     </script>

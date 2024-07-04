@@ -242,7 +242,6 @@ require_once 'db.php';
                     <a href="#" class="link"><?php echo htmlspecialchars($username); ?></a>
                     <div class="dropdown-content">
                         <a href="../Authentification/logout.php" class="link">Se déconnecter</a>
-                        <a href="../MesCommandes/MesCommandes.html" class="link">Mes commandes</a>
                     </div>
                 <?php else: ?>
                     <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
