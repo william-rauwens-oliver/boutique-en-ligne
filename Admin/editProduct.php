@@ -61,15 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        // Affichage des valeurs pour le débogage
-        echo "ID: $id\n";
-        echo "Name: $name\n";
-        echo "Description: $description\n";
-        echo "Price: $price\n";
-        echo "Image: $image\n";
-        echo "Category: $category\n";
-
-        // Conversion des données
+        // Conversion du prix en float
         $price = floatval($price);
 
         // Appel à la méthode updateProduct de la classe EditProducts

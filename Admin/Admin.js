@@ -1,8 +1,7 @@
 $(document).ready(function() {
-    // Charger les produits au démarrage
+
     loadProducts();
 
-    // Ajouter ou modifier un produit
     $('#product-form').submit(function(e) {
         e.preventDefault();
 
@@ -14,64 +13,12 @@ $(document).ready(function() {
         let image = $('#image').val();
 
         if (productId) {
-            // Modifier un produit
-            $.ajax({
-                url: 'editProduct.php',
-                method: 'POST',
-                data: {
-                    id: productId,
-                    name: name,
-                    description: description,
-                    price: price,
-                    category: category,
-                    image: image
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        alert('Produit modifié avec succès');
-                    } else {
-                        alert('Erreur lors de la modification du produit: ' + response.message);
-                    }
-                    loadProducts();
-                    $('#product-form')[0].reset();
-                    $('#product-id').val('');
-                    $('#submit-button').text('Ajouter le produit');
-                },
-                error: function(error) {
-                    console.error('Erreur lors de la modification du produit:', error);
-                }
-            });
+            editProduct(productId, name, description, price, category, image);
         } else {
-            // Ajouter un produit
-            $.ajax({
-                url: 'addProduct.php',
-                method: 'POST',
-                data: {
-                    name: name,
-                    description: description,
-                    price: price,
-                    category: category,
-                    image: image
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        alert('Produit ajouté avec succès');
-                    } else {
-                        alert('Erreur lors de l\'ajout du produit: ' + response.message);
-                    }
-                    loadProducts();
-                    $('#product-form')[0].reset();
-                },
-                error: function(error) {
-                    console.error('Erreur lors de l\'ajout du produit:', error);
-                }
-            });
+            addProduct(name, description, price, category, image);
         }
     });
 
-    // Charger les produits
     function loadProducts() {
         $.ajax({
             url: 'getProducts.php',
@@ -95,10 +42,9 @@ $(document).ready(function() {
                 });
                 $('#products-table').html(productsHtml);
 
-                // Ajouter les événements pour les boutons de modification et suppression
                 $('.edit-btn').click(function() {
                     let productId = $(this).data('id');
-                    editProduct(productId);
+                    fetchProductDetails(productId);
                 });
 
                 $('.delete-btn').click(function() {
@@ -112,18 +58,43 @@ $(document).ready(function() {
         });
     }
 
-    // Modifier un produit
-    function editProduct(productId) {
+    function fetchProductDetails(productId) {
         $.ajax({
-            url: 'editProduct.php', 
+            url: 'getProductDetails.php',
+            method: 'POST',
+            data: { id: productId },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $('#product-id').val(response.product.id);
+                    $('#name').val(response.product.name);
+                    $('#description').val(response.product.description);
+                    $('#price').val(response.product.price);
+                    $('#category').val(response.product.category);
+                    $('#image').val(response.product.image);
+
+                    $('#submit-button').text('Modifier le produit');
+                } else {
+                    alert('Erreur lors de la récupération des détails du produit à éditer: ' + response.error);
+                }
+            },
+            error: function(error) {
+                console.error('Erreur lors de la récupération des détails du produit à éditer:', error);
+            }
+        });
+    }
+
+    function editProduct(productId, name, description, price, category, image) {
+        $.ajax({
+            url: 'editProduct.php',
             method: 'POST',
             data: {
                 id: productId,
-                name: $('#name').val(),
-                description: $('#description').val(),
-                price: $('#price').val(),
-                category: $('#category').val(),
-                image: $('#image').val()
+                name: name,
+                description: description,
+                price: price,
+                category: category,
+                image: image
             },
             dataType: 'json',
             success: function(response) {
@@ -132,7 +103,7 @@ $(document).ready(function() {
                 } else {
                     alert('Erreur lors de la modification du produit: ' + response.message);
                 }
-                loadProducts(); 
+                loadProducts();
                 $('#product-form')[0].reset();
                 $('#product-id').val('');
                 $('#submit-button').text('Ajouter le produit');
@@ -143,14 +114,40 @@ $(document).ready(function() {
         });
     }
 
-    // Supprimer un produit
+    function addProduct(name, description, price, category, image) {
+        $.ajax({
+            url: 'addProduct.php',
+            method: 'POST',
+            data: {
+                name: name,
+                description: description,
+                price: price,
+                category: category,
+                image: image
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    alert('Produit ajouté avec succès');
+                } else {
+                    alert('Erreur lors de l\'ajout du produit: ' + response.message);
+                }
+                loadProducts();
+                $('#product-form')[0].reset();
+            },
+            error: function(error) {
+                console.error('Erreur lors de l\'ajout du produit:', error);
+            }
+        });
+    }
+
     function deleteProduct(productId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
             $.ajax({
                 url: 'deleteProduct.php',
                 method: 'POST',
                 data: { id: productId },
-                dataType: 'json', // Ajoutez cette ligne pour s'assurer que la réponse est interprétée comme JSON
+                dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         alert('Produit supprimé avec succès');
