@@ -387,7 +387,7 @@ ul li {
 .add-review-form-container {
     margin-top: 20px;
     padding: 20px;
-    background-color: #f8f9fa; /* Couleur de fond légère */
+    background-color: transparent; /* Fond transparent */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
@@ -397,12 +397,18 @@ ul li {
     width: 100%;
     max-width: 600px; /* Largeur maximale du formulaire */
     margin: 0 auto; /* Centrer le formulaire horizontalement */
+    background-color: rgba(255, 255, 255, 0.8); /* Fond avec transparence */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
 
 .add-review-form h3 {
     font-size: 24px;
     margin-bottom: 15px;
     color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .add-review-form input[type="text"],
@@ -412,28 +418,31 @@ ul li {
     width: 100%;
     padding: 14px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: none;
+    border-bottom: 1px solid #ccc; /* Bordure inférieure légère */
     font-size: 16px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    background-color: transparent; /* Fond transparent */
     transition: border-color 0.3s ease;
     box-sizing: border-box; /* Assure que le padding n'augmente pas la largeur */
+    color: #333;
+    font-family: 'Arial', sans-serif; /* Police simple et lisible */
 }
 
 .add-review-form input[type="text"]:focus,
 .add-review-form textarea:focus,
 .add-review-form select:focus {
     outline: none;
-    border-color: #66afe9; /* Couleur de bordure lors du focus */
+    border-color: #007bff; /* Couleur de bordure lors du focus */
 }
 
 .add-review-form textarea {
-    resize: vertical; /* Permet à l'utilisateur de redimensionner la zone de texte verticalement */
+    resize: none; /* Empêche le redimensionnement vertical */
+    min-height: 120px; /* Hauteur minimale de la zone de texte */
 }
 
 .add-review-form select {
     height: 46px; /* Hauteur des champs de sélection */
+    background-color: rgba(255, 255, 255, 0.5); /* Fond semi-transparent */
 }
 
 .add-review-form button {
@@ -445,11 +454,13 @@ ul li {
     font-weight: bold;
     text-transform: uppercase;
     transition: background-color 0.3s ease;
+    border-radius: 6px;
 }
 
 .add-review-form button:hover {
     background-color: #0056b3; /* Couleur de fond au survol */
 }
+
 
 
 .featured_img {

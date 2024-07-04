@@ -61,6 +61,8 @@
             border-radius: 20px;
             outline: none;
             transition: width 0.4s ease-in-out;
+            position: relative;
+            padding-left: 35px;
         }
         #product-search:focus {
             width: 300px;
@@ -77,10 +79,6 @@
             font-size: 20px;
             color: #888;
         }
-        #product-search {
-            padding-left: 35px;
-            position: relative;
-        }
         .content-right {
             display: flex;
             padding: 110px 100px;
@@ -94,151 +92,171 @@
             white-space: normal;
             margin-right: 20px;
         }
+        .product a {
+            text-decoration: none;
+            color: inherit; /* Assurez-vous que le lien est stylé correctement */
+            display: block; /* Pour s'assurer que le lien couvre tout le produit */
+        }
     </style>
 </head>
 <body>
-    <?php
-        session_start();
-        $isLoggedIn = isset($_SESSION['username']);
-        $username = $isLoggedIn ? $_SESSION['username'] : '';
-    ?>
 
-    <div class="body_items">
-        <div class="item_1">
-            <img src="../Assets/BoutiqueIMG/6.png" alt="Image 6">
-        </div>
-        <div class="just_do_it">
-            <p>Just Do It</p>
-        </div>
-    </div>
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : '';
 
-    <div class="main">
-        <div class="nav">
-            <div class="nav-part-1">
-                <img src="images/nike-logo-0.png" alt="logo">
-                <ul>
-                    <li><a href="../Boutique/Boutique.php" class="link">Tous</a></li>
-                    <li><a href="../Boutique/Boutique.php?category=chaussure" class="link">Chaussures</a></li>
-                    <li><a href="../Boutique/Boutique.php?category=vetement" class="link">Vêtements</a></li>
-                    <li><a href="../Boutique/Boutique.php?category=sport" class="link">Sport</a></li>
-                    <li><a href="../Panier/Panier.html" class="link">Mon Panier</a></li>
-                </ul>
-            </div>
-            <div class="nav-part-2">
-                <div style="position: relative;">
-                    <i class="ri-search-line"></i>
-                    <input type="text" id="product-search" placeholder="Rechercher des produits...">
-                </div>
-                <i class="ri-shopping-cart-2-line"></i>
-                <i class="ri-menu-line"></i>
-                <div class="login_link">
-                    <?php if ($isLoggedIn): ?>
-                        <a href="#" class="link"><?php echo htmlspecialchars($username); ?></a>
-                        <div class="dropdown-content">
-                            <a href="../Authentification/logout.php" class="link">Se déconnecter</a>
-                            <a href="../MesCommandes/MesCommandes.html" class="link">Mes commandes</a>
-                        </div>
-                    <?php else: ?>
-                        <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
-                    <?php endif; ?>
-                    <div class="link_border"></div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="content-left">
-                <h5>Découvrez les éditions limitées</h5>
-                <h1>Édition limitée Nike</h1>
-                <p>Laissez l'extraordinaire s'exprimer. Rehaussez votre jeu avec l'Édition Limitée de Nike. Où l'innovation rencontre le style, laissant une empreinte durable. Just do it.</p>
-                <a href="../Boutique/Boutique.php" class="btn">Acheter Maintenant !</a>
-            </div>
+require_once 'db.php';
 
-            <div class="content-right">
-                <div class="product" id="product-nike-air-max-1">
-                    <img src="images/air-max-1-lx-shoes.png" alt="chaussures nike">
-                    <h4>Nike Air max 1</h4>
-                    <p class="catagory">Chaussures pour hommes</p>
-                    <p class="color">Couleur : blanc</p>
-                    <p class="price">124,99€</p>
-                </div>
-                <div class="product" id="product-nike-air-peg-2k5">
-                    <img src="images/air-peg-2k5-shoes.png" alt="chaussures nike">
-                    <h4>Nike Air peg 2K5</h4>
-                    <p class="catagory">Chaussures pour hommes</p>
-                    <p class="color">Couleur : blanc</p>
-                    <p class="price">154,99€</p>
-                </div>
-                <div class="product" id="product-nike-lunar-roam">
-                    <img src="images/lunar-roam-shoes.png" alt="chaussures nike">
-                    <h4>Nike lunar roam</h4>
-                    <p class="catagory">Chaussures pour hommes</p>
-                    <p class="color">Couleur : bleu somnolent</p>
-                    <p class="price">170,99€</p>
-                </div>
-                <div class="product" id="product-nike-nocta-glide">
-                    <img src="images/nocta-glide-shoes.png" alt="chaussures nike">
-                    <h4>Nike nocta glide</h4>
-                    <p class="catagory">Chaussures pour hommes</p>
-                    <p class="color">Couleur : blanc</p>
-                    <p class="price">134,99€</p>
-                </div>
-                <div class="product" id="product-nike-terminator-high">
-                    <img src="images/terminator-high-shoes.png" alt="chaussures nike">
-                    <h4>Nike Terminator high</h4>
-                    <p class="catagory">Chaussures pour hommes</p>
-                    <p class="color">Couleur : bleu somnolent</p>
-                    <p class="price">234,99€</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('product-search');
+?>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('product-search');
 
-            searchInput.addEventListener('input', () => {
-                const query = searchInput.value.trim().toLowerCase();
-                filterProducts(query);
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            filterProducts(query);
+        });
+
+        function filterProducts(query) {
+            const products = document.querySelectorAll('.product');
+            let anyVisible = false; // Flag to check if any product is visible
+            products.forEach(product => {
+                const title = product.querySelector('h4').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    product.style.display = 'block';
+                    anyVisible = true; // At least one product is visible
+                } else {
+                    product.style.display = 'none';
+                }
             });
 
-            function filterProducts(query) {
-                const products = document.querySelectorAll('.product');
-                let anyVisible = false; // Flag to check if any product is visible
+            // Show all products if query is empty
+            if (query === "") {
                 products.forEach(product => {
-                    const title = product.querySelector('h4').textContent.toLowerCase();
-                    if (title.includes(query)) {
-                        product.style.display = 'block';
-                        anyVisible = true; // At least one product is visible
-                    } else {
-                        product.style.display = 'none';
-                    }
+                    product.style.display = 'block';
                 });
+                anyVisible = true; // Since all products are now visible
+            }
 
-                // Show all products if query is empty
-                if (query === "") {
-                    products.forEach(product => {
-                        product.style.display = 'block';
-                    });
-                    anyVisible = true; // Since all products are now visible
+            // Show a message if no products are found
+            const contentRight = document.querySelector('.content-right');
+            let noResultsMessage = document.querySelector('.no-results');
+            if (!anyVisible) {
+                if (!noResultsMessage) {
+                    noResultsMessage = document.createElement('div');
+                    noResultsMessage.className = 'no-results';
+                    noResultsMessage.textContent = 'Aucun produit trouvé';
+                    contentRight.appendChild(noResultsMessage);
                 }
-
-                // Show a message if no products are found
-                const contentRight = document.querySelector('.content-right');
-                let noResultsMessage = document.querySelector('.no-results');
-                if (!anyVisible) {
-                    if (!noResultsMessage) {
-                        noResultsMessage = document.createElement('div');
-                        noResultsMessage.className = 'no-results';
-                        noResultsMessage.textContent = 'Aucun produit trouvé';
-                        contentRight.appendChild(noResultsMessage);
-                    }
-                } else {
-                    if (noResultsMessage) {
-                        noResultsMessage.remove();
-                    }
+            } else {
+                if (noResultsMessage) {
+                    noResultsMessage.remove();
                 }
             }
+        }
+
+        // Fonction pour charger les produits depuis PHP
+        function loadProducts(category) {
+            fetch(`../Boutique/GetBoutique.php?category=${category}`)
+                .then(response => response.json())
+                .then(products => {
+                    const contentRight = document.querySelector('.content-right');
+                    contentRight.innerHTML = ''; // Nettoie le contenu existant
+
+                    products.forEach(product => {
+                        const productElement = `
+                            <div class="product">
+                                <a href="../Boutique/details.php?id=${product.id}">
+                                    <img src="${product.image}" alt="${product.name}">
+                                    <h4>${product.name}</h4>
+                                    <p class="color">Couleur : ${product.color}</p>
+                                    <p class="price">${product.price}€</p>
+                                </a>
+                            </div>
+                        `;
+                        contentRight.insertAdjacentHTML('beforeend', productElement);
+                    });
+
+                    // Affiche un message si aucun produit n'est trouvé après chargement
+                    const query = searchInput.value.trim().toLowerCase();
+                    filterProducts(query);
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des produits:', error);
+                });
+        }
+
+        // Charge tous les produits au démarrage
+        loadProducts('all');
+
+        // Gère le changement de catégorie et charge les produits correspondants
+        const navLinks = document.querySelectorAll('.nav-part-1 a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                const category = link.getAttribute('href').split('=')[1];
+                loadProducts(category);
+            });
         });
-    </script>
+    });
+</script>
+
+<div class="body_items">
+    <div class="item_1">
+        <img src="../Assets/BoutiqueIMG/6.png" alt="Image 6">
+    </div>
+    <div class="just_do_it">
+        <p>Just Do It</p>
+    </div>
+</div>
+
+<div class="main">
+    <div class="nav">
+        <div class="nav-part-1">
+            <img src="images/nike-logo-0.png" alt="logo">
+            <ul>
+                <li><a href="../Boutique/Boutique.php" class="link">Tous</a></li>
+                <li><a href="../Boutique/Boutique.php?category=chaussure" class="link">Chaussures</a></li>
+                <li><a href="../Boutique/Boutique.php?category=vetement" class="link">Vêtements</a></li>
+                <li><a href="../Boutique/Boutique.php?category=sport" class="link">Sport</a></li>
+                <li><a href="../Panier/Panier.html" class="link">Mon Panier</a></li>
+            </ul>
+        </div>
+        <div class="nav-part-2">
+            <div style="position: relative;">
+                <i class="ri-search-line"></i>
+                <input type="text" id="product-search" placeholder="Rechercher des produits...">
+            </div>
+            <i class="ri-shopping-cart-2-line"></i>
+            <i class="ri-menu-line"></i>
+            <div class="login_link">
+                <?php if ($isLoggedIn): ?>
+                    <a href="#" class="link"><?php echo htmlspecialchars($username); ?></a>
+                    <div class="dropdown-content">
+                        <a href="../Authentification/logout.php" class="link">Se déconnecter</a>
+                        <a href="../MesCommandes/MesCommandes.html" class="link">Mes commandes</a>
+                    </div>
+                <?php else: ?>
+                    <a href="../Authentification/Authentification.html" class="link">S'identifier</a>
+                <?php endif; ?>
+                <div class="link_border"></div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="content-left">
+            <h5>Découvrez les éditions limitées</h5>
+            <h1>Édition limitée Nike</h1>
+            <p>Laissez l'extraordinaire s'exprimer. Rehaussez votre jeu avec l'Édition Limitée de Nike. Où l'innovation rencontre le style, laissant une empreinte durable. Just do it.</p>
+            <a href="../Boutique/Boutique.php" class="btn">Acheter Maintenant !</a>
+        </div>
+
+        <div class="content-right">
+            <!-- Contenu des produits chargé dynamiquement -->
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

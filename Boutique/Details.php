@@ -42,6 +42,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
         .login_link:hover .dropdown-content {
             display: block;
         }
+        
     </style>
 </head>
 <body>
@@ -65,7 +66,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
     <nav>
         <div class="left_nav">
             <div class="nav_logo">
-                <a href="/index.html">
+                <a href="../Accueil/Accueil.html">
                     <img src="../Assets/BoutiqueIMG/logo.png" alt="Logo de votre boutique">
                 </a>
             </div>
