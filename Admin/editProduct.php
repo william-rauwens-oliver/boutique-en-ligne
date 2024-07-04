@@ -55,6 +55,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $image = isset($_POST['image']) ? $_POST['image'] : null;
         $category = isset($_POST['category']) ? $_POST['category'] : null;
 
+        // Validation des données
+        if ($id === null || $name === null || $description === null || $price === null || $image === null || $category === null) {
+            echo json_encode(['success' => false, 'error' => 'Tous les champs doivent être remplis.']);
+            exit;
+        }
+
+        // Affichage des valeurs pour le débogage
+        echo "ID: $id\n";
+        echo "Name: $name\n";
+        echo "Description: $description\n";
+        echo "Price: $price\n";
+        echo "Image: $image\n";
+        echo "Category: $category\n";
+
+        // Conversion des données
+        $price = floatval($price);
+
         // Appel à la méthode updateProduct de la classe EditProducts
         $result = $editProducts->updateProduct($id, $name, $description, $price, $image, $category);
 

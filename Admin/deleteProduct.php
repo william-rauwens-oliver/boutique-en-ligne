@@ -22,9 +22,14 @@ class Delete
             $stmt = $this->pdo->prepare($sql);
 
             if ($stmt->execute([$id])) {
-                return ['status' => 'success'];
+                $rowCount = $stmt->rowCount();
+                if ($rowCount > 0) {
+                    return ['status' => 'success'];
+                } else {
+                    return ['status' => 'error', 'message' => 'Aucun produit trouvé avec cet ID'];
+                }
             } else {
-                return ['status' => 'error', 'message' => 'Failed to delete product'];
+                return ['status' => 'error', 'message' => 'Échec de la suppression du produit'];
             }
         } catch (PDOException $e) {
             return ['status' => 'error', 'message' => $e->getMessage()];
@@ -32,7 +37,6 @@ class Delete
     }
 }
 
-// Exemple d'utilisation :
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdo = require 'db.php'; // Inclure votre connexion PDO ici
     $deleteHandler = new Delete($pdo);

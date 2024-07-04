@@ -26,8 +26,13 @@ $(document).ready(function() {
                     category: category,
                     image: image
                 },
+                dataType: 'json',
                 success: function(response) {
-                    alert('Produit modifié avec succès');
+                    if (response.status === 'success') {
+                        alert('Produit modifié avec succès');
+                    } else {
+                        alert('Erreur lors de la modification du produit: ' + response.message);
+                    }
                     loadProducts();
                     $('#product-form')[0].reset();
                     $('#product-id').val('');
@@ -49,8 +54,13 @@ $(document).ready(function() {
                     category: category,
                     image: image
                 },
+                dataType: 'json',
                 success: function(response) {
-                    alert('Produit ajouté avec succès');
+                    if (response.status === 'success') {
+                        alert('Produit ajouté avec succès');
+                    } else {
+                        alert('Erreur lors de l\'ajout du produit: ' + response.message);
+                    }
                     loadProducts();
                     $('#product-form')[0].reset();
                 },
@@ -103,36 +113,35 @@ $(document).ready(function() {
     }
 
     // Modifier un produit
-// Modifier un produit
-function editProduct(productId) {
-    $.ajax({
-        url: 'editProduct.php', // Assurez-vous que le chemin est correct par rapport à votre structure de fichiers
-        method: 'POST',
-        data: {
-            id: productId,
-            name: $('#name').val(),
-            description: $('#description').val(),
-            price: $('#price').val(),
-            category: $('#category').val(),
-            image: $('#image').val()
-        },
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert('Produit modifié avec succès');
-                loadProducts(); // Recharger la liste des produits après modification
+    function editProduct(productId) {
+        $.ajax({
+            url: 'editProduct.php', 
+            method: 'POST',
+            data: {
+                id: productId,
+                name: $('#name').val(),
+                description: $('#description').val(),
+                price: $('#price').val(),
+                category: $('#category').val(),
+                image: $('#image').val()
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    alert('Produit modifié avec succès');
+                } else {
+                    alert('Erreur lors de la modification du produit: ' + response.message);
+                }
+                loadProducts(); 
                 $('#product-form')[0].reset();
                 $('#product-id').val('');
                 $('#submit-button').text('Ajouter le produit');
-            } else {
-                alert('Erreur lors de la modification du produit: ' + response.error);
+            },
+            error: function(error) {
+                console.error('Erreur lors de la modification du produit:', error);
             }
-        },
-        error: function(error) {
-            console.error('Erreur lors de la modification du produit:', error);
-        }
-    });
-}
+        });
+    }
 
     // Supprimer un produit
     function deleteProduct(productId) {
@@ -141,8 +150,13 @@ function editProduct(productId) {
                 url: 'deleteProduct.php',
                 method: 'POST',
                 data: { id: productId },
+                dataType: 'json', // Ajoutez cette ligne pour s'assurer que la réponse est interprétée comme JSON
                 success: function(response) {
-                    alert('Produit supprimé avec succès');
+                    if (response.status === 'success') {
+                        alert('Produit supprimé avec succès');
+                    } else {
+                        alert('Erreur lors de la suppression du produit: ' + response.message);
+                    }
                     loadProducts();
                 },
                 error: function(error) {

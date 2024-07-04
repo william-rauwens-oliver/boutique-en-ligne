@@ -97,6 +97,13 @@
             color: inherit; /* Assurez-vous que le lien est stylé correctement */
             display: block; /* Pour s'assurer que le lien couvre tout le produit */
         }
+        .product .description {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            margin-top: 290px /* Pushes the description to the bottom */
+        }
+
     </style>
 </head>
 <body>
@@ -170,7 +177,7 @@ require_once 'db.php';
                                 <a href="../Boutique/details.php?id=${product.id}">
                                     <img src="${product.image}" alt="${product.name}">
                                     <h4>${product.name}</h4>
-                                    <p class="color">Couleur : ${product.color}</p>
+                                    <p class="description">${product.description}</p>
                                     <p class="price">${product.price}€</p>
                                 </a>
                             </div>
