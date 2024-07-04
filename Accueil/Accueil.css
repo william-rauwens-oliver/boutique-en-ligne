@@ -115,7 +115,13 @@ body{
     padding: 110px 100px;
     white-space: nowrap;
     overflow-x: auto;
+    flex-wrap: nowrap; 
+    gap: 20px; 
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
 }
+
+
 
 .content-right::-webkit-scrollbar{
     display: none;
