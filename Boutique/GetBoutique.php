@@ -31,10 +31,9 @@ class ProductFetcher
     }
 }
 
-// Utilisation de la classe
 header('Content-Type: application/json');
 $category = $_GET['category'] ?? 'all';
-$productFetcher = new ProductFetcher($pdo); // Utilisation de la connexion PDO depuis db.php
+$productFetcher = new ProductFetcher($pdo);
 $products = $productFetcher->fetchProducts($category);
 echo json_encode($products);
 ?>

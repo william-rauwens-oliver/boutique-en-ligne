@@ -39,6 +39,7 @@
                     <label></label>
                 </div>
                 <input type="hidden" name="action" value="register">
+                <div id="registerError" class="error-message"></div>
                 <button type="submit">S'inscrire</button>
             </form>
         </div>
@@ -61,6 +62,7 @@
                 </div>
                 <input type="hidden" name="action" value="login">
                 <a href="#" class="forgot">Mot de passe oublié?</a>
+                <div id="loginError" class="error-message"></div>
                 <button type="submit">Se connecter</button>
             </form>
         </div>
@@ -92,14 +94,18 @@
         })
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+            const registerError = document.getElementById('registerError');
             if (data.includes("Inscription réussie")) {
                 window.location.href = "../Boutique/Boutique.php";
             } else {
-                alert("Erreur lors de l'inscription. Veuillez réessayer.");
+                registerError.textContent = data;
             }
         })
-        .catch(error => console.error('Erreur:', error));
+        .catch(error => {
+            const registerError = document.getElementById('registerError');
+            registerError.textContent = 'Erreur lors de l\'inscription. Veuillez réessayer.';
+            console.error('Erreur:', error);
+        });
     });
 
     document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -112,14 +118,18 @@
         })
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+            const loginError = document.getElementById('loginError');
             if (data.includes("Mot de passe incorrect") || data.includes("Aucun utilisateur trouvé")) {
-                alert(data);
+                loginError.textContent = data;
             } else {
                 window.location.href = "../Boutique/Boutique.php";
             }
         })
-        .catch(error => console.error('Erreur:', error));
+        .catch(error => {
+            const loginError = document.getElementById('loginError');
+            loginError.textContent = 'Erreur lors de la connexion. Veuillez réessayer.';
+            console.error('Erreur:', error);
+        });
     });
 
     const container = document.getElementById('container');
@@ -136,36 +146,33 @@
     });
 
     function googleSignIn() {
-        // Déclenche la connexion Google
         auth2.grantOfflineAccess().then(signInCallback);
     }
 
     function signInCallback(authResult) {
-    if (authResult['code']) {
-        fetch('google-auth.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'code=' + encodeURIComponent(authResult['code'])
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Redirection après une authentification réussie
-                window.location.href = "../Boutique/Boutique.php";
-            } else {
-                alert('Erreur lors de l\'authentification avec Google.');
-            }
-        })
-        .catch(error => console.error('Erreur:', error));
-    } else {
-        console.error('Erreur lors de la récupération du code d\'autorisation Google.');
+        if (authResult['code']) {
+            fetch('google-auth.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'code=' + encodeURIComponent(authResult['code'])
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "../Boutique/Boutique.php";
+                } else {
+                    alert('Erreur lors de l\'authentification avec Google.');
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        } else {
+            console.error('Erreur lors de la récupération du code d\'autorisation Google.');
+        }
     }
-}
 
     function startGoogleAuth() {
-        // Initialisation de l'authentification Google
         gapi.load('auth2', function() {
             auth2 = gapi.auth2.init({
                 client_id: '994112343166-ed7ptuk74kdqmhvfrgm1p7bv7i476vgb.apps.googleusercontent.com'

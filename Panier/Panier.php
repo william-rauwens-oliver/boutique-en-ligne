@@ -28,7 +28,6 @@
         .login_link .dropdown-content a:hover {
             background-color: #f1f1f1;
         }
-        /* Ajoutez vos styles CSS ici */
         .cart-container {
             display: flex;
             justify-content: space-between;
