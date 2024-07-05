@@ -13,7 +13,7 @@ class Users
 
     public function register($user_name, $user_email, $user_password)
     {
-        $user_id = rand(0, 100); // Génère un ID utilisateur aléatoire entre 0 et 100
+        $user_id = rand(0, 100);
         $hashed_password = password_hash($user_password, PASSWORD_BCRYPT);
 
         $sql = "INSERT INTO users (users_id, username, email, password) VALUES (?, ?, ?, ?)";
