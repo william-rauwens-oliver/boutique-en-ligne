@@ -1,0 +1,34 @@
+<?php
+session_start();
+
+class RemoveCart
+{
+    public function removeFromCart()
+    {
+        header('Content-Type: application/json');
+
+        if (isset($_POST['productId'])) {
+            $productId = $_POST['productId'];
+
+            if (isset($_SESSION['cart'])) {
+                foreach ($_SESSION['cart'] as $key => $product) {
+                    if ($product['id'] == $productId) {
+                        unset($_SESSION['cart'][$key]);
+                        $_SESSION['cart'] = array_values($_SESSION['cart']);
+                        echo json_encode(['success' => true]);
+                        return;
+                    }
+                }
+            }
+
+            echo json_encode(['success' => false, 'error' => 'Produit non trouvé dans le panier.']);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'ID du produit non fourni.']);
+        }
+    }
+}
+
+// Instantiate the class and call the method to remove from cart
+$removeCartHandler = new RemoveCart();
+$removeCartHandler->removeFromCart();
+?>
