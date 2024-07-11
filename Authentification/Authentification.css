@@ -352,6 +352,10 @@ btnScaled {
   width: 100%;
 }
 
+.error-message {
+  color: red;
+}
+
 .infield {
   position: relative;
   margin: 8px 0px;
@@ -362,13 +366,11 @@ btnScaled {
   width: 100%;
   padding: 12px 15px;
   background-color: #f3f3f3;
-  border: 1px solid #f3f3f3; /* Couleur de bordure par défaut */
+  border: 1px solid #f3f3f3;
   outline: none;
-  transition: border-color 0.3s; /* Transition douce pour la couleur de bordure */
+  transition: border-color 0.3s;
 }
 
 .infield input.error {
-  border-color: red; /* Bordure rouge pour l'état d'erreur */
+  border-color: red;
 }
-
-/* Other styles remain unchanged */
