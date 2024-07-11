@@ -135,7 +135,7 @@
                     <hr>
                 </div>
                 <div class="shoe_description">
-                    <p>Nike est la meilleure marque de vêtements</p>
+                    <p>Bienvenue sur la boutique de Nike Fake</p>
                 </div>
                 <div class="products-grid" id="products-container">
                     <!-- Produits dynamiques -->

@@ -21,19 +21,19 @@
             <form id="registerForm" action="Authentification.php" method="POST">
                 <h1>Créer un compte</h1>
                 <div class="social-container">
-                    <a href="" class="social" onclick="googleSignIn()"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social" onclick="googleSignIn()"><i class="fab fa-google"></i></a>
                 </div>
                 <span>ou utilisez votre email pour vous inscrire</span>
                 <div class="infield">
-                    <input type="text" placeholder="Nom" name="username" required/>
+                    <input type="text" placeholder="Nom" name="username"/>
                     <label></label>
                 </div>
                 <div class="infield">
-                    <input type="email" placeholder="Email" name="email" required/>
+                    <input type="email" placeholder="Email" name="email"/>
                     <label></label>
                 </div>
                 <div class="infield">
-                    <input type="password" placeholder="Mot de passe" name="password" required/>
+                    <input type="password" placeholder="Mot de passe" name="password"/>
                     <label></label>
                 </div>
                 <input type="hidden" name="action" value="register">
@@ -45,15 +45,15 @@
             <form id="loginForm" action="Authentification.php" method="POST">
                 <h1>Se connecter</h1>
                 <div class="social-container">
-                    <a href="" class="social" onclick="googleSignIn()"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social" onclick="googleSignIn()"><i class="fab fa-google"></i></a>
                 </div>
                 <span>ou utilisez votre compte</span>
                 <div class="infield">
-                    <input type="email" placeholder="Email" name="email" required/>
+                    <input type="email" placeholder="Email" name="email"/>
                     <label></label>
                 </div>
                 <div class="infield">
-                    <input type="password" placeholder="Mot de passe" name="password" required/>
+                    <input type="password" placeholder="Mot de passe" name="password"/>
                     <label></label>
                 </div>
                 <input type="hidden" name="action" value="login">
@@ -80,105 +80,160 @@
     </div>
 
     <script>
-    document.getElementById('registerForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        const formData = new FormData(this);
-        fetch('Authentification.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            const registerError = document.getElementById('registerError');
-            if (data.includes("Inscription réussie")) {
-                window.location.href = "../Boutique/Boutique.php";
-            } else {
-                registerError.textContent = data;
-            }
-        })
-        .catch(error => {
-            const registerError = document.getElementById('registerError');
-            registerError.textContent = 'Erreur lors de l\'inscription. Veuillez réessayer.';
-            console.error('Erreur:', error);
-        });
-    });
+    const username = this.querySelector('input[name="username"]');
+    const email = this.querySelector('input[name="email"]');
+    const password = this.querySelector('input[name="password"]');
+    const registerError = document.getElementById('registerError');
 
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    registerError.textContent = '';
 
-        const formData = new FormData(this);
-        fetch('Authentification.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            const loginError = document.getElementById('loginError');
-            if (data.includes("Mot de passe incorrect") || data.includes("Aucun utilisateur trouvé")) {
-                loginError.textContent = data;
-            } else {
-                window.location.href = "../Boutique/Boutique.php";
-            }
-        })
-        .catch(error => {
-            const loginError = document.getElementById('loginError');
-            loginError.textContent = 'Erreur lors de la connexion. Veuillez réessayer.';
-            console.error('Erreur:', error);
-        });
-    });
-
-    const container = document.getElementById('container');
-    const overlayCon = document.getElementById('overlayCon');
-    const overlayBtn = document.getElementById('overlayBtn');
-
-    overlayBtn.addEventListener('click', () => {
-        container.classList.toggle('right-panel-active');
-
-        overlayBtn.classList.remove('btnScaled');
-        window.requestAnimationFrame(() => {
-            overlayBtn.classList.add('btnScaled');
-        });
-    });
-
-    function googleSignIn() {
-        auth2.grantOfflineAccess().then(signInCallback);
+    if (!username.value.trim() || !email.value.trim() || !password.value.trim()) {
+        registerError.textContent = 'Tous les champs doivent être remplis.';
+        highlightInvalidFields([username, email, password]);
+        return;
     }
 
-    function signInCallback(authResult) {
-        if (authResult['code']) {
-            fetch('google-auth.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'code=' + encodeURIComponent(authResult['code'])
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = "../Boutique/Boutique.php";
-                } else {
-                    alert('Erreur lors de l\'authentification avec Google.');
-                }
-            })
-            .catch(error => console.error('Erreur:', error));
+    if (!isValidEmail(email.value.trim())) {
+        registerError.textContent = 'Adresse e-mail invalide.';
+        highlightInvalidFields([email]);
+        return;
+    }
+
+    if (password.value.trim().length < 8) {
+        registerError.textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
+        highlightInvalidFields([password]);
+        return;
+    }
+
+    const formData = new FormData(this);
+    fetch('Authentification.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes("Inscription réussie")) {
+            window.location.href = "../Accueil/Accueil.php";
         } else {
-            console.error('Erreur lors de la récupération du code d\'autorisation Google.');
+            registerError.textContent = data;
         }
-    }
-
-    function startGoogleAuth() {
-        gapi.load('auth2', function() {
-            auth2 = gapi.auth2.init({
-                client_id: '994112343166-ed7ptuk74kdqmhvfrgm1p7bv7i476vgb.apps.googleusercontent.com'
-            });
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        startGoogleAuth();
+    })
+    .catch(error => {
+        registerError.textContent = 'Erreur lors de l\'inscription. Veuillez réessayer.';
+        console.error('Erreur:', error);
     });
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = this.querySelector('input[name="email"]');
+    const password = this.querySelector('input[name="password"]');
+    const loginError = document.getElementById('loginError');
+
+    loginError.textContent = '';
+
+    if (!email.value.trim() || !password.value.trim()) {
+        loginError.textContent = 'Tous les champs doivent être remplis.';
+        highlightInvalidFields([email, password]);
+        return;
+    }
+
+    if (!isValidEmail(email.value.trim())) {
+        loginError.textContent = 'Adresse e-mail invalide.';
+        highlightInvalidFields([email]);
+        return;
+    }
+
+    const formData = new FormData(this);
+    fetch('Authentification.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes("Mot de passe incorrect") || data.includes("Aucun utilisateur trouvé")) {
+            loginError.textContent = data;
+        } else {
+            window.location.href = "../Accueil/Accueil.php";
+        }
+    })
+    .catch(error => {
+        loginError.textContent = 'Erreur lors de la connexion. Veuillez réessayer.';
+        console.error('Erreur:', error);
+    });
+});
+
+
+function highlightInvalidFields(fields) {
+    fields.forEach(field => {
+        field.classList.add('error');
+        field.addEventListener('input', () => {
+            field.classList.remove('error');
+        });
+    });
+}
+
+
+function isValidEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+const container = document.getElementById('container');
+const overlayBtn = document.getElementById('overlayBtn');
+
+overlayBtn.addEventListener('click', () => {
+    container.classList.toggle('right-panel-active');
+
+    overlayBtn.classList.remove('btnScaled');
+    window.requestAnimationFrame(() => {
+        overlayBtn.classList.add('btnScaled');
+    });
+});
+
+function googleSignIn() {
+    auth2.grantOfflineAccess().then(signInCallback);
+}
+
+function signInCallback(authResult) {
+    if (authResult['code']) {
+        fetch('google-auth.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'code=' + encodeURIComponent(authResult['code'])
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "../Boutique/Boutique.php";
+            } else {
+                alert('Erreur lors de l\'authentification avec Google.');
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    } else {
+        console.error('Erreur lors de la récupération du code d\'autorisation Google.');
+    }
+}
+
+function startGoogleAuth() {
+    gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+            client_id: '994112343166-ed7ptuk74kdqmhvfrgm1p7bv7i476vgb.apps.googleusercontent.com'
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    startGoogleAuth();
+});
+
     </script>
 </body>
 </html>
