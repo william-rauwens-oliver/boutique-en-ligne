@@ -221,7 +221,7 @@ require_once 'db.php';
 <div class="main">
     <div class="nav">
         <div class="nav-part-1">
-            <img src="images/nike-logo-0.png" alt="logo">
+            <img src="../Assets/images/nike-logo-0.png" alt="logo">
             <ul>
                 <li><a href="../Boutique/Boutique.php" class="link">Tous</a></li>
                 <li><a href="../Boutique/Boutique.php?category=chaussure" class="link">Chaussures</a></li>
