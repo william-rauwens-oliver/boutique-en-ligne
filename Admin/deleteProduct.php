@@ -1,10 +1,9 @@
 <?php
-// Activer l'affichage des erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require 'db.php'; // Assurez-vous que ce fichier contient votre connexion PDO à la base de données
+require 'db.php'; 
 
 class Delete
 {
@@ -38,7 +37,7 @@ class Delete
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pdo = require 'db.php'; // Inclure votre connexion PDO ici
+    $pdo = require 'db.php';
     $deleteHandler = new Delete($pdo);
 
     $id = $_POST['id'];
