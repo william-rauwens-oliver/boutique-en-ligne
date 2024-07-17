@@ -2,10 +2,8 @@
 require_once 'db.php';
 require_once 'ProductDetailsHandler.php';
 
-// Initialise la classe ProductDetailsHandler avec la connexion PDO existante
 $productHandler = new ProductDetailsHandler($pdo);
 
-// Gère la requête pour récupérer les détails et les avis du produit
 list($product, $reviews) = $productHandler->handleRequest();
 
 ?>
@@ -16,7 +14,7 @@ list($product, $reviews) = $productHandler->handleRequest();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails du Produit</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Incluez vos styles CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Détails du Produit</h1>

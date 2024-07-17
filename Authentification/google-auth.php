@@ -45,10 +45,9 @@ class UsersGoogle
             $_SESSION['access_token'] = $tokenData['access_token'];
             $_SESSION['refresh_token'] = $tokenData['refresh_token'];
 
-            // Récupérer les informations utilisateur
             $userInfo = $this->getUserInfo($tokenData['access_token']);
             if ($userInfo) {
-                $_SESSION['username'] = $userInfo['email'];  // Enregistrer l'email de l'utilisateur dans la session
+                $_SESSION['username'] = $userInfo['email']; 
                 header('Location: ' . $redirectUrl);
                 exit();
             } else {
@@ -72,11 +71,10 @@ class UsersGoogle
     }
 }
 
-// Utilisation de la classe
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code']) && isset($_POST['redirectUrl'])) {
     $usersGoogle = new UsersGoogle();
     $code = $_POST['code'];
-    $redirectUrl = 'http://localhost:8888/Boutique-en-ligne/Boutique/Boutique.php'; // Redirection vers la page boutique
+    $redirectUrl = 'http://localhost:8888/Boutique-en-ligne/Boutique/Boutique.php';
     $usersGoogle->authenticate($code, $redirectUrl);
 }
 ?>

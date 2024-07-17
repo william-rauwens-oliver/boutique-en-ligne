@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-    // Fonction pour obtenir le nombre d'articles dans le panier
     function getCartCount() {
         $.ajax({
             url: 'GetCartCount.php',
@@ -15,7 +14,6 @@ $(document).ready(function() {
         });
     }
 
-    // Appel de la fonction lors du chargement de la page
     getCartCount();
 
     function loadProducts(category) {
@@ -32,7 +30,7 @@ $(document).ready(function() {
                     $.each(response, function(index, product) {
                         productsHtml += '<div class="shop_item_container">';
                         productsHtml += '<div class="shoe_img_box">';
-                        productsHtml += '<a href="details.php?id=' + product.id + '"><img src="' + product.image + '" class="shoe_img"></a>'; // Ajout du lien ici
+                        productsHtml += '<a href="details.php?id=' + product.id + '"><img src="' + product.image + '" class="shoe_img"></a>';
                         productsHtml += '</div>';
                         productsHtml += '<div class="shoe_name_price">';
                         productsHtml += '<h3>' + product.name + '</h3>';
@@ -53,10 +51,8 @@ $(document).ready(function() {
     }
     
 
-    // Charger tous les produits au départ
     loadProducts('all');
 
-    // Gestion du clic sur les liens de navigation pour filtrer les produits
     $('.nav_menu .link, .nav_dropdown_menu .link').click(function(e) {
         e.preventDefault();
         var category = $(this).data('category');
@@ -64,7 +60,6 @@ $(document).ready(function() {
     });
 });
 
-// Déplacez la fonction addToCart en dehors de $(document).ready()
 function addToCart(productId) {
     $.ajax({
         url: 'AddToCart.php',
@@ -74,7 +69,7 @@ function addToCart(productId) {
         success: function(response) {
             if (response.success) {
                 alert('Produit ajouté au panier avec succès !');
-                getCartCount(); // Mettre à jour le compteur du panier après l'ajout
+                getCartCount();
             } else {
                 alert('Erreur lors de l\'ajout au panier : ' + response.error);
             }

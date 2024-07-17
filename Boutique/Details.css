@@ -1,14 +1,11 @@
-/* Reset CSS */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Body style */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #efe4e4;
@@ -16,7 +13,6 @@ body {
     padding: 0;
 }
 
-/* Navigation */
 nav {
     position: relative;
     display: flex;
@@ -110,12 +106,12 @@ ul li {
 }
 
 .left_col {
-    flex: 2; /* Prend tout l'espace disponible */
+    flex: 2;
     margin-right: 20px;
 }
 
 .right_col {
-    flex: 2; /* Prend deux fois l'espace du left_col */
+    flex: 2; 
 }
 
 .left_col img {
@@ -159,11 +155,11 @@ ul li {
     border: none;
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    align-self: flex-start; /* Alignement du bouton à gauche */
+    align-self: flex-start; 
 }
 
 
-/* Body Items */
+
 .item_1 img {
     position: fixed;
     top: 0;
@@ -324,7 +320,7 @@ ul li {
     position: relative;
     height: 85vh;
 }
-/* Styles améliorés pour la boîte du produit */
+
 .product-box {
     background-color: #fff;
     border-radius: 10px;
@@ -334,13 +330,13 @@ ul li {
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease-in-out;
-    max-width: 300px; /* Largeur maximale fixée */
-    overflow: hidden; /* Pour cacher le contenu dépassant */
+    max-width: 300px; 
+    overflow: hidden;
 }
 
 .product-box:hover {
-    transform: translateY(-5px); /* Animation de léger décalage vers le haut au survol */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre légèrement renforcée */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .product-box img {
@@ -352,7 +348,7 @@ ul li {
 }
 
 .product-box:hover img {
-    transform: scale(1.1); /* Animation de zoom au survol */
+    transform: scale(1.1);
 }
 
 .product-box .title {
@@ -368,10 +364,10 @@ ul li {
     line-height: 1.4;
     margin-bottom: 10px;
     color: #666;
-    overflow: hidden; /* Pour cacher le texte dépassant */
-    text-overflow: ellipsis; /* Pour ajouter des points de suspension */
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Nombre de lignes maximum */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 
@@ -380,27 +376,25 @@ ul li {
     font-weight: 600;
     color: #f44336;
     margin-top: auto;
-    align-self: flex-end; /* Alignement du prix à droite */
+    align-self: flex-end;
 }
 
-/* Styles pour la boîte autour du formulaire d'ajout de commentaire */
 .add-review-form-container {
     margin-top: 20px;
     padding: 20px;
-    background-color: transparent; /* Fond transparent */
+    background-color: transparent;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Styles pour le formulaire d'ajout de commentaire */
 .add-review-form {
     width: 100%;
-    max-width: 600px; /* Largeur maximale du formulaire */
-    margin: 0 auto; /* Centrer le formulaire horizontalement */
-    background-color: rgba(255, 255, 255, 0.8); /* Fond avec transparence */
+    max-width: 600px; 
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .add-review-form h3 {

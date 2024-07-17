@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     document.getElementById('card-errors').textContent = data.error;
                 } else {
                     alert('Paiement réussi !');
-                    // Rediriger ou effectuer d'autres actions après un paiement réussi
                 }
             }).catch((error) => {
                 console.error('Erreur lors du paiement :', error);

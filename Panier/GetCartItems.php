@@ -47,7 +47,6 @@ class Panier
     }
 }
 
-// Utilisation de la classe Panier avec PDO
 $panier = new Panier($pdo);
 $cartItems = $panier->getCartItems();
 

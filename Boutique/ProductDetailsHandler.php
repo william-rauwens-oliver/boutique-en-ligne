@@ -28,25 +28,20 @@ class ProductDetailsHandler
 
     public function handleRequest()
     {
-        // Récupérer l'ID du produit depuis l'URL
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            // Gérer le cas où l'ID n'est pas fourni
             echo 'ID de produit non spécifié.';
             exit;
         }
 
-        // Récupérer les détails du produit
         $product = $this->getProductDetails($id);
 
-        // Vérifier si le produit existe
         if (!$product) {
             echo 'Produit non trouvé.';
             exit;
         }
 
-        // Récupérer les avis sur ce produit
         $reviews = $this->getProductReviews($id);
 
         return [$product, $reviews];

@@ -28,7 +28,6 @@ class RemoveCart
     }
 }
 
-// Instantiate the class and call the method to remove from cart
 $removeCartHandler = new RemoveCart();
 $removeCartHandler->removeFromCart();
 ?>

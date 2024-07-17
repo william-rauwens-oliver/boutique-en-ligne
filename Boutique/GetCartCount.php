@@ -24,7 +24,6 @@ class CartHandler
     }
 }
 
-// Utilisation de la classe
 $cartHandler = new CartHandler();
 $cartHandler->respondWithCartCount();
 ?>

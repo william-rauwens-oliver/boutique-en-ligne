@@ -138,14 +138,13 @@
                     <p>Nike est la meilleure marque de vêtements</p>
                 </div>
                 <div class="products-grid" id="products-container">
-                    <!-- Produits dynamiques -->
                 </div>
             </div>
             <div class="right_col">
                 <div class="shopping_cart_btn">
                     <a href="../Panier/Panier.php" class="shopping_cart_link">
                         <i class="bx bx-cart"></i>
-                        <span id="cart-count">0</span> <!-- Nombre d'articles dans le panier -->
+                        <span id="cart-count">0</span>
                     </a>
                 </div>
             </div>

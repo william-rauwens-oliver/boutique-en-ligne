@@ -94,14 +94,14 @@
         }
         .product a {
             text-decoration: none;
-            color: inherit; /* Assurez-vous que le lien est stylé correctement */
-            display: block; /* Pour s'assurer que le lien couvre tout le produit */
+            color: inherit;
+            display: block;
         }
         .product .description {
             margin-top: 10px;
             font-size: 14px;
             color: #666;
-            margin-top: 290px /* Pushes the description to the bottom */
+            margin-top: 290px;
         }
 
     </style>
@@ -127,26 +127,24 @@ require_once 'db.php';
 
         function filterProducts(query) {
             const products = document.querySelectorAll('.product');
-            let anyVisible = false; // Flag to check if any product is visible
+            let anyVisible = false;
             products.forEach(product => {
                 const title = product.querySelector('h4').textContent.toLowerCase();
                 if (title.includes(query)) {
                     product.style.display = 'block';
-                    anyVisible = true; // At least one product is visible
+                    anyVisible = true; 
                 } else {
                     product.style.display = 'none';
                 }
             });
 
-            // Show all products if query is empty
             if (query === "") {
                 products.forEach(product => {
                     product.style.display = 'block';
                 });
-                anyVisible = true; // Since all products are now visible
+                anyVisible = true; 
             }
 
-            // Show a message if no products are found
             const contentRight = document.querySelector('.content-right');
             let noResultsMessage = document.querySelector('.no-results');
             if (!anyVisible) {
@@ -163,13 +161,12 @@ require_once 'db.php';
             }
         }
 
-        // Fonction pour charger les produits depuis PHP
         function loadProducts(category) {
             fetch(`../Boutique/GetBoutique.php?category=${category}`)
                 .then(response => response.json())
                 .then(products => {
                     const contentRight = document.querySelector('.content-right');
-                    contentRight.innerHTML = ''; // Nettoie le contenu existant
+                    contentRight.innerHTML = '';
 
                     products.forEach(product => {
                         const productElement = `
@@ -185,7 +182,6 @@ require_once 'db.php';
                         contentRight.insertAdjacentHTML('beforeend', productElement);
                     });
 
-                    // Affiche un message si aucun produit n'est trouvé après chargement
                     const query = searchInput.value.trim().toLowerCase();
                     filterProducts(query);
                 })
@@ -194,10 +190,8 @@ require_once 'db.php';
                 });
         }
 
-        // Charge tous les produits au démarrage
         loadProducts('all');
 
-        // Gère le changement de catégorie et charge les produits correspondants
         const navLinks = document.querySelectorAll('.nav-part-1 a');
         navLinks.forEach(link => {
             link.addEventListener('click', event => {
@@ -259,7 +253,7 @@ require_once 'db.php';
         </div>
 
         <div class="content-right">
-            <!-- Contenu des produits chargé dynamiquement -->
+
         </div>
     </div>
 </div>

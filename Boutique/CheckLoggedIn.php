@@ -4,7 +4,6 @@ class SessionHandler
 {
     public function __construct()
     {
-        // Démarrer la session si ce n'est pas déjà fait
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -29,13 +28,10 @@ class SessionHandler
     }
 }
 
-// Créer une instance de SessionHandler
 $sessionHandler = new SessionHandler();
 
-// Vérifier le statut de connexion et obtenir la réponse
 $response = $sessionHandler->checkLoginStatus();
 
-// Sortir la réponse en JSON
 $sessionHandler->outputJsonResponse($response);
 
 ?>

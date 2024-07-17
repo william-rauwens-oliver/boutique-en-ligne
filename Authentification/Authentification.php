@@ -51,7 +51,7 @@ class Users
     }
 }
 
-// Utilisation de la classe
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     $users = new Users($pdo);
 

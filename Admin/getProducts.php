@@ -16,14 +16,12 @@ class Products
     public function getProducts($id = null)
     {
         if ($id !== null) {
-            // Récupérer un produit spécifique par son ID
             $sql = 'SELECT * FROM products WHERE id = ?';
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$id]);
             $product = $stmt->fetch(PDO::FETCH_ASSOC);
             return $product ? [$product] : [];
         } else {
-            // Récupérer tous les produits
             $sql = 'SELECT * FROM products';
             $stmt = $this->pdo->query($sql);
             $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,7 +30,6 @@ class Products
     }
 }
 
-// Exemple d'utilisation :
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     try {
         $pdo = new PDO("mysql:host=localhost;dbname=boutique", "root", "root");

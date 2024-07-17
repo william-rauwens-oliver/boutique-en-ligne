@@ -1,7 +1,6 @@
 <?php
 require_once 'ProductDetailsHandler.php';
 
-// Utilisation de la connexion PDO depuis db.php
 $productHandler = new ProductDetailsHandler($pdo);
 list($product, $reviews) = $productHandler->handleRequest();
 
@@ -166,7 +165,6 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
                 <?php endif; ?>
             </div>
 
-            <!-- Boîte autour du formulaire pour ajouter un avis -->
             <div class="add-review-form-container">
                 <h3>Ajouter un avis</h3>
                 <div class="add-review-form">

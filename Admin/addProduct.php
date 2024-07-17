@@ -1,5 +1,4 @@
 <?php
-// Activer l'affichage des erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -32,7 +31,6 @@ class AddProducts
     }
 }
 
-// Exemple d'utilisation :
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $pdo = new PDO("mysql:host=localhost;dbname=boutique", "root", "root");
