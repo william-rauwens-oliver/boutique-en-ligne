@@ -310,7 +310,6 @@
                     success: function (response) {
                         if (response.success) {
                             alert('Paiement effectué avec succès !');
-                            // Rediriger l'utilisateur ou effectuer une autre action après le paiement
                         } else {
                             alert('Erreur lors du paiement : ' + response.error);
                         }
